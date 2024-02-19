@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5431/sima-land
+    username: postgres
+    password: ${DB_PASSWORD}
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
