@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+<!--    <includeAll path="classpath:db/changelog/changes/" relativeToChangelogFile="false"/>-->
+    <include file="classpath:db/changelog/changes/19-02-2024--1-create-user-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--2-create-item-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--3-create-order-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--4-create-order-item-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--5-create-warehouse-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--6-create-pick-up-point-table.xml" relativeToChangelogFile="false" />
+    <include file="classpath:db/changelog/changes/19-02-2024--7-create-warehouse-item-table.xml" relativeToChangelogFile="false" />
+    
+</databaseChangeLog>

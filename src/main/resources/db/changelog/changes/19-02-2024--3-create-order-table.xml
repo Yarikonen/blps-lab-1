@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Yarikonen" id="19-02-2024--3-create-order-table">
+        <createTable tableName="order">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="customer_id" type="BIGINT">
+                <constraints
+                        foreignKeyName="fk_customer_order" references="user(id)"
+                        nullable="false"/>
+            </column>
+            <column name="order_date" type="DATE">
+                <constraints
+                        nullable="false"/>
+            </column>
+            <column name="pick_up_address" type="TEXT">
+                <constraints
+                        nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="order"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

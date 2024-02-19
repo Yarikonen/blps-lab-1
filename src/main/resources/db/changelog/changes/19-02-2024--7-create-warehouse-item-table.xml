@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Yarikonen" id="19-02-2024--7-create-warehouse-item-table">
+        <createTable tableName="warehouse_item">
+            <column name="warehouse_id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        foreignKeyName="fk_item_warehouse" references="warehouse(id)"
+                        nullable="false"/>
+            </column>
+            <column name="item_id" type="BIGINT">
+                <constraints
+                        foreignKeyName="fk_warehouse_item" references="item(id)"
+                        nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="warehouse_item"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
