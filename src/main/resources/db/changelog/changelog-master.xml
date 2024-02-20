@@ -11,5 +11,5 @@
     <include file="classpath:db/changelog/changes/19-02-2024--5-create-warehouse-table.xml" relativeToChangelogFile="false" />
     <include file="classpath:db/changelog/changes/19-02-2024--6-create-pick-up-point-table.xml" relativeToChangelogFile="false" />
     <include file="classpath:db/changelog/changes/19-02-2024--7-create-warehouse-item-table.xml" relativeToChangelogFile="false" />
-    
+    <include file="classpath:db/changelog/changes/20-02-2024--1-rename-user-table.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
