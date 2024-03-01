@@ -1,7 +1,7 @@
-package com.itmo.simaland.controllers;
+package com.itmo.simaland.controller;
 
 import com.itmo.simaland.model.entity.Item;
-import com.itmo.simaland.repository.ItemRepository;
+import com.itmo.simaland.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +13,21 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     @Autowired
-    public ItemController(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
     @GetMapping
     public List<Item> getAllItems() {
-        return itemRepository.findAll();
+        return itemService.getAllItems();
     }
 
     @PostMapping
     public ResponseEntity<Item> createItem(@RequestBody Item item) {
-        Item savedItem = itemRepository.save(item);
+        Item savedItem = itemService.createItem(item);
         return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
     }
 }
