@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemMapper itemMapper;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, ItemMapper itemMapper) {
         this.itemService = itemService;
+        this.itemMapper = itemMapper;
     }
 
     @GetMapping
@@ -35,15 +37,16 @@ public class ItemController {
         ItemFilter itemFilter = new ItemFilter(name, minPrice, maxPrice);
         Page<Item> page = itemService.getAllItems(pageRequest, itemFilter);
 
-        Page<ItemResponse> responsePage = ItemMapper.mapPageToItemResponse(page);
+        Page<ItemResponse> responsePage = page.map(itemMapper::toItemResponse);
 
         return new ResponseEntity<>(responsePage, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Item> createItem(@RequestBody ItemRequest itemRequest) {
-        Item item = ItemMapper.toItem(itemRequest);
+    public ResponseEntity<ItemResponse> createItem(@RequestBody ItemRequest itemRequest) {
+        Item item = itemMapper.toItem(itemRequest);
         Item savedItem = itemService.createItem(item);
-        return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
+        ItemResponse itemResponse = itemMapper.toItemResponse(savedItem);
+        return new ResponseEntity<>(itemResponse, HttpStatus.CREATED);
     }
 }
