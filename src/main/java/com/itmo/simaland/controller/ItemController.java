@@ -24,17 +24,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/items")
-@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
     private final ItemMapper itemMapper;
 
-    @Autowired
-    public ItemController(ItemService itemService, ItemMapper itemMapper) {
-        this.itemService = itemService;
-        this.itemMapper = itemMapper;
-    }
 
     @GetMapping
     @Operation(summary = "Get all items")
