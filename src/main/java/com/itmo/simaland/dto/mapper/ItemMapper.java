@@ -11,8 +11,6 @@ import org.springframework.data.domain.Page;
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
 
-    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
-
     Item toItem(ItemRequest itemRequest);
 
     @Mapping(target = "price", source = "price")

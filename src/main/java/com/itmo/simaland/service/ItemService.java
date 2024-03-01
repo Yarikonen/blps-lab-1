@@ -3,7 +3,7 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,14 +14,10 @@ import java.util.List;
 import jakarta.persistence.criteria.Predicate;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
     private final ItemRepository itemRepository;
-
-    @Autowired
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
 
     private Specification<Item> createSpecification(ItemFilter itemFilter) {
         return (root, query, criteriaBuilder) -> {

@@ -7,7 +7,7 @@ import com.itmo.simaland.dto.mapper.ItemMapper;
 import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -16,16 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/items")
+@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
     private final ItemMapper itemMapper;
-
-    @Autowired
-    public ItemController(ItemService itemService, ItemMapper itemMapper) {
-        this.itemService = itemService;
-        this.itemMapper = itemMapper;
-    }
 
     @GetMapping
     public ResponseEntity<Page<ItemResponse>> getAllItems(
