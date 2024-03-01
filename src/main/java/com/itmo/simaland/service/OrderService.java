@@ -15,8 +15,8 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public void createOrder(Order order) {
-        orderRepository.save(order);
+    public Order createOrder(Order order) {
+        return orderRepository.save(order);
     }
 
     public Page<Order> getOrders(PageRequest pageRequest){

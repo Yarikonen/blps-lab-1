@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "_order")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -37,8 +37,7 @@ public class Order {
     @JoinTable(name = "order_item", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;
 
-
-
-
+    @Column(name = "paid")
+    private Boolean paid;
 
 }
