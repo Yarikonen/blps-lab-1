@@ -34,4 +34,9 @@ public class User {
     @Column(name="status")
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+    @Override
+    public String toString() {
+        return "{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password + '\'' + ", role=" + role + ", status=" + status + '}';
+    }
 }

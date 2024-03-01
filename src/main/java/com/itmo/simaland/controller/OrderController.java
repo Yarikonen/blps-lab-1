@@ -10,6 +10,7 @@ import com.itmo.simaland.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,15 +34,21 @@ public class OrderController {
 
     @GetMapping("/list")
     @Operation(summary = "Get all orders")
-    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "200", description = "Список всех заказов")
     Page<Order> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
         return orderService.getOrders(pageRequest.toPageRequest());
     }
 
     @PostMapping("/create")
     @Operation(summary = "Create order")
-    @ApiResponse(responseCode = "201", description = "OK")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Создан заказ"),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных"),
+            @ApiResponse(responseCode = "404", description = "Не найден пользователь с таким id ")
+    }
+    )
     public OrderResponse createOrder(CreateOrderRequest request) {
+        System.out.println(orderMapper.mapToOrder(request).getCustomer().toString());
         return Stream.of(request)
                 .map(orderMapper::mapToOrder)
                 .map(orderService::createOrder)

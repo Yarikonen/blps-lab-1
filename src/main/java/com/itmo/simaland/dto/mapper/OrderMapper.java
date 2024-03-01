@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
 
+
+    @Mapping(source = "customer", target = "customer.id")
     Order mapToOrder(CreateOrderRequest request);
 
     Item mapToItem(Long id);

@@ -38,6 +38,7 @@ public class ItemService {
     }
 
     public Page<Item> getAllItems(PageRequest pageRequest, ItemFilter itemFilter) {
+
         Specification<Item> spec = createSpecification(itemFilter);
         return itemRepository.findAll(spec, pageRequest);
     }
@@ -45,5 +46,9 @@ public class ItemService {
 
     public Item createItem(Item item) {
         return itemRepository.save(item);
+    }
+
+    public List<Item> getAllItemsByIds(List<Long> ids) {
+        return itemRepository.findAllById(ids);
     }
 }
