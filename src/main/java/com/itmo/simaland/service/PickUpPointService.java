@@ -37,4 +37,24 @@ public class PickUpPointService {
     public PickUpPoint findById(Long id) {
         return pickUpPointRepository.findById(id).orElse(null);
     }
+
+    public PickUpPoint updatePickUpPoint(Long id, PickUpPointRequest request) {
+        PickUpPoint pickUpPoint = pickUpPointRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id: " + id));
+
+        pickUpPoint.setAddress(request.getAddress());
+
+        Warehouse warehouse = warehouseRepository.findById(request.getWarehouseId())
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id: " + request.getWarehouseId()));
+        pickUpPoint.setWarehouse(warehouse);
+
+        return pickUpPointRepository.save(pickUpPoint);
+    }
+
+    public void deletePickUpPoint(Long id) {
+        if (!pickUpPointRepository.existsById(id)) {
+            throw new EntityNotFoundException("PickUpPoint not found with id: " + id);
+        }
+        pickUpPointRepository.deleteById(id);
+    }
 }
