@@ -44,4 +44,26 @@ public class UserService {
         user.setStatus(newStatus);
         return userRepository.save(user);
     }
+
+    public User updateUsername(Long id, String username) throws EntityNotFoundException, IllegalArgumentException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        user.setUsername(username);
+        return userRepository.save(user);
+    }
+
+    public boolean isUsernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
+    }
 }
