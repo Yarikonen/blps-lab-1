@@ -14,7 +14,4 @@ public class UserRequest {
 
     @JsonProperty("password")
     private String password;
-
-
-
 }

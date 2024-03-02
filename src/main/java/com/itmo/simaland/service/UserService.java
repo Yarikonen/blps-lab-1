@@ -30,4 +30,11 @@ public class UserService {
         user.setStatus(Status.Active);
         return userRepository.save(user);
     }
+
+    public User updateUserRole(Long userId, Role newRole) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        user.setRole(newRole);
+        return userRepository.save(user);
+    }
 }
