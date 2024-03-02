@@ -3,6 +3,7 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.repository.ItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,5 +51,18 @@ public class ItemService {
 
     public List<Item> getAllItemsByIds(List<Long> ids) {
         return itemRepository.findAllById(ids);
+    }
+
+    public Item updateItem(Item item) {
+        return itemRepository.findById(item.getId()).map(existingItem -> {
+            existingItem.setName(item.getName());
+            existingItem.setPrice(item.getPrice());
+            return itemRepository.save(existingItem);
+        }).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + item.getId()));
+    }
+
+    public void deleteItem(Long id) {
+        Item item = itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
+        itemRepository.delete(item);
     }
 }
