@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,32 +26,37 @@ public class OrderService {
     private final UserService userService;
 
     public Order createOrder(Order order) {
-        System.out.println(order.getCustomer().toString());
+        System.out.println(order.getPickUpAddress().toString());
         return orderRepository.save(enrichOrder(order));
     }
 
-    private Order enrichOrder(Order order) {
-        System.out.println(order.getCustomer().toString());
-        userService.findUserById(order.getCustomer().getId())
-                .ifPresentOrElse(
-                        order::setCustomer,
-                        () -> {
-                            throw new EntityNotFoundException("Юзера с таким id не существует");
-                        }
-                );
-       order.setItems(
-        itemService.getAllItemsByIds( order.getItems()
-               .stream().map(Item::getId)
-               .collect(Collectors.toList()))
-       );
-       order.setOrderDate(LocalDate.now());
-       return order;
+    public Optional<Order> findOrderById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    public Order getOrderById(Long id) {
+        return findOrderById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 
     public Page<Order> getOrders(PageRequest pageRequest){
         return orderRepository.findAll(pageRequest);
     }
 
+    public void removeOrderById(Long id) {
+       orderRepository.delete(getOrderById(id));
+    }
+
+    private Order enrichOrder(Order order) {
+        System.out.println(order.getPickUpAddress());
+        order.setCustomer(userService.getUserById(order.getCustomer().getId()));
+        order.setItems(
+                itemService.getAllItemsByIds( order.getItems()
+                        .stream().map(Item::getId)
+                        .collect(Collectors.toList()))
+        );
+        order.setOrderDate(LocalDate.now());
+        return order;
+    }
 
 
 }

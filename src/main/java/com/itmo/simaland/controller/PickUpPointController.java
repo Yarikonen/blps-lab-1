@@ -8,6 +8,7 @@ import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.service.PickUpPointService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +27,16 @@ public class PickUpPointController {
 
     @GetMapping("/list")
     @Operation(summary = "Get all pick-up points")
-    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content)
     public Page<PickUpPointResponse> getPickUpPoints(@Parameter(description = "Pagination request") PaginationRequest paginationRequest) {
-        PageRequest pageRequest = PageRequest.of(paginationRequest.getPageNumber(), paginationRequest.getPageSize());
+        PageRequest pageRequest = paginationRequest.toPageRequest();
         Page<PickUpPoint> pickUpPoints = pickUpPointService.findAll(pageRequest);
         return pickUpPoints.map(pickUpPointMapper::toResponse);
     }
 
     @PostMapping("/create")
     @Operation(summary = "Create a new pick-up point")
-    @ApiResponse(responseCode = "201", description = "Created")
+    @ApiResponse(responseCode = "201", description = "Created", content = @Content)
     public PickUpPointResponse createPickUpPoint(@RequestBody PickUpPointRequest request) {
         PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(request);
         return pickUpPointMapper.toResponse(pickUpPoint);

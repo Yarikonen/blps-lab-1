@@ -17,6 +17,7 @@ public interface OrderMapper {
     Item mapToItem(Long id);
 
 
+    @Mapping(source="id", target="id")
     OrderResponse mapToResponse(Order order);
 
 }

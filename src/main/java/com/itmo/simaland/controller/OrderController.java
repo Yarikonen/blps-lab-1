@@ -9,16 +9,14 @@ import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
@@ -34,7 +32,7 @@ public class OrderController {
 
     @GetMapping("/list")
     @Operation(summary = "Get all orders")
-    @ApiResponse(responseCode = "200", description = "Список всех заказов")
+    @ApiResponse(responseCode = "200", description = "Order list")
     Page<Order> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
         return orderService.getOrders(pageRequest.toPageRequest());
     }
@@ -42,18 +40,24 @@ public class OrderController {
     @PostMapping("/create")
     @Operation(summary = "Create order")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Создан заказ"),
-            @ApiResponse(responseCode = "400", description = "Неверный формат данных"),
-            @ApiResponse(responseCode = "404", description = "Не найден пользователь с таким id ")
+            @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Incorrect data format", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found ", content = @Content)
     }
     )
-    public OrderResponse createOrder(CreateOrderRequest request) {
-        System.out.println(orderMapper.mapToOrder(request).getCustomer().toString());
+    public OrderResponse createOrder(@RequestBody CreateOrderRequest request) {
         return Stream.of(request)
                 .map(orderMapper::mapToOrder)
                 .map(orderService::createOrder)
                 .map(orderMapper::mapToResponse)
                 .findFirst().get();
+    }
+
+    @PostMapping("/delete/{id}")
+    @Operation(summary= "Delete order")
+    @ApiResponse(responseCode = "200", description = "Order deleted")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.removeOrderById(id);
     }
 
 
