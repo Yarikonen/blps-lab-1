@@ -15,10 +15,7 @@ public class InstallmentService {
     public InstallmentResponse processInstallment(InstallmentRequest request) {
         Order order = orderService.getOrderById(request.getOrderId());
         Double monthlyPayment = calculateMonthlyPayment(request.getMonths(), request.getInitialPayment());
-        InstallmentResponse response = new InstallmentResponse();
-        response.setOrderId(request.getOrderId());
-        response.setMonthlyPayment(monthlyPayment);
-        response.setApproved(true);
+        InstallmentResponse response = new InstallmentResponse(request.getOrderId(), monthlyPayment, true);
         orderService.markOrderAsPaid(order.getId());
         return response;
     }

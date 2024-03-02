@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentRequest {
+    private Long orderId;
     private String cardNumber;
     private String cardHolderName;
     private String expirationDate; // MM/YY

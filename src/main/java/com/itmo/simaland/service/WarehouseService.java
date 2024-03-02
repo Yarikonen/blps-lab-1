@@ -2,18 +2,14 @@ package com.itmo.simaland.service;
 
 import com.itmo.simaland.model.entity.Warehouse;
 import com.itmo.simaland.repository.WarehouseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
-
-    @Autowired
-    public WarehouseService(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-    }
 
     public Warehouse save(Warehouse warehouse) {
         return warehouseRepository.save(warehouse);
