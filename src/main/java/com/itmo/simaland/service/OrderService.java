@@ -58,5 +58,10 @@ public class OrderService {
         return order;
     }
 
-
+    public Order markOrderAsPaid(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+        order.setPaid(true);
+        return orderRepository.save(order);
+    }
 }
