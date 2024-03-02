@@ -1,6 +1,8 @@
 package com.itmo.simaland.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.itmo.simaland.model.enums.Role;
+import com.itmo.simaland.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,4 +15,10 @@ public class UserResponse {
 
     @JsonProperty("username")
     private String username;
+
+    @JsonProperty("role")
+    private Role role;
+
+    @JsonProperty("status")
+    private Status status;
 }
