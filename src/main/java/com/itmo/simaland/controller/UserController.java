@@ -46,9 +46,9 @@ public class UserController {
     @PostMapping
     @Operation(summary = "Create user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid user data provided"),
-            @ApiResponse(responseCode = "409", description = "Username already exists")
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid user data provided", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Username already exists", content = @Content)
     })
     public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
         User user = userMapper.toUser(userRequest);
@@ -59,7 +59,7 @@ public class UserController {
 
     @PatchMapping("/{id}/role")
     @Operation(description = "Update user role")
-    @ApiResponse(responseCode = "200", description = "Role updated")
+    @ApiResponse(responseCode = "200", description = "Role updated", content = @Content)
     public UserResponse updateUserRole(@PathVariable("id") Long id, @RequestParam("role") Role role) {
         User user = userService.updateUserRole(id, role);
         return userMapper.toUserResponse(user);
@@ -67,7 +67,7 @@ public class UserController {
 
     @PatchMapping("/{id}/status")
     @Operation(description = "Update user status")
-    @ApiResponse(responseCode = "200", description = "Status updated")
+    @ApiResponse(responseCode = "200", description = "Status updated", content = @Content)
     public UserResponse updateUserStatus(@PathVariable("id") Long id, @RequestParam("status") Status status) {
         User user = userService.updateUserStatus(id, status);
         return userMapper.toUserResponse(user);
