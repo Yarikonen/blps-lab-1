@@ -4,6 +4,7 @@ import com.itmo.simaland.dto.pickUpPoint.PickUpPointRequest;
 import com.itmo.simaland.dto.pickUpPoint.PickUpPointResponse;
 import com.itmo.simaland.dto.mapper.PickUpPointMapper;
 import com.itmo.simaland.dto.paging.PaginationRequest;
+import com.itmo.simaland.dto.pickUpPoint.UpdatePickUpPointRequest;
 import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.service.PickUpPointService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,8 +62,8 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "404", description = "Pick-up point not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
-    public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody PickUpPointRequest request) {
-        PickUpPoint updatedPickUpPoint = pickUpPointService.updatePickUpPoint(id, request);
+    public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody UpdatePickUpPointRequest updateRequest) {
+        PickUpPoint updatedPickUpPoint = pickUpPointService.updatePickUpPoint(id, updateRequest);
         return pickUpPointMapper.toResponse(updatedPickUpPoint);
     }
 

@@ -1,6 +1,7 @@
 package com.itmo.simaland.service;
 
 import com.itmo.simaland.dto.filter.ItemFilter;
+import com.itmo.simaland.dto.item.UpdateItemRequest;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -53,13 +54,14 @@ public class ItemService {
         return itemRepository.findAllById(ids);
     }
 
-    public Item updateItem(Item item) {
-        return itemRepository.findById(item.getId()).map(existingItem -> {
-            existingItem.setName(item.getName());
-            existingItem.setPrice(item.getPrice());
+    public Item updateItem(Long id, UpdateItemRequest updateRequest) {
+        return itemRepository.findById(id).map(existingItem -> {
+            if (updateRequest.getName() != null) existingItem.setName(updateRequest.getName());
+            if (updateRequest.getPrice() != null) existingItem.setPrice(updateRequest.getPrice());
             return itemRepository.save(existingItem);
-        }).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + item.getId()));
+        }).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
     }
+
 
     public void deleteItem(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));

@@ -1,6 +1,7 @@
 package com.itmo.simaland.service;
 
 import com.itmo.simaland.dto.pickUpPoint.PickUpPointRequest;
+import com.itmo.simaland.dto.pickUpPoint.UpdatePickUpPointRequest;
 import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.model.entity.Warehouse;
 import com.itmo.simaland.repository.PickUpPointRepository;
@@ -41,14 +42,16 @@ public class PickUpPointService {
         return findById(id).orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id " + id));
     }
 
-    public PickUpPoint updatePickUpPoint(Long id, PickUpPointRequest request) {
+    public PickUpPoint updatePickUpPoint(Long id, UpdatePickUpPointRequest request) {
         PickUpPoint pickUpPoint = getById(id);
 
-        pickUpPoint.setAddress(request.getAddress());
-
-        Warehouse warehouse = warehouseService.getById(request.getWarehouseId()) ;
-        pickUpPoint.setWarehouse(warehouse);
-
+        if (request.getAddress() != null) {
+            pickUpPoint.setAddress(request.getAddress());
+        }
+        if (request.getWarehouseId() != null) {
+            Warehouse warehouse = warehouseService.getById(request.getWarehouseId());
+            pickUpPoint.setWarehouse(warehouse);
+        }
         return pickUpPointRepository.save(pickUpPoint);
     }
 

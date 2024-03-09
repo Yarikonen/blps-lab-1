@@ -3,6 +3,7 @@ package com.itmo.simaland.controller;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.dto.item.ItemRequest;
 import com.itmo.simaland.dto.item.ItemResponse;
+import com.itmo.simaland.dto.item.UpdateItemRequest;
 import com.itmo.simaland.dto.mapper.ItemMapper;
 import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.model.entity.Item;
@@ -63,9 +64,8 @@ public class ItemController {
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)
     })
-    public ItemResponse updateItem(@PathVariable Long id, @RequestBody @Valid ItemRequest itemRequest) {
-        Item item = itemMapper.toItemWithId(itemRequest,id);
-        item = itemService.updateItem(item);
+    public ItemResponse updateItem(@PathVariable Long id, @RequestBody @Valid UpdateItemRequest updateRequest) {
+        Item item = itemService.updateItem(id, updateRequest);
         return itemMapper.toItemResponse(item);
     }
 
