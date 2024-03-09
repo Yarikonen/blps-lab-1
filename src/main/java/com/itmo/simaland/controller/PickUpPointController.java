@@ -15,8 +15,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Tag(name = "PickUpPoint Controller", description = "PickUpPoint Controller")
@@ -54,9 +55,12 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "404", description = "Pick-up point not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
-    public ResponseEntity<PickUpPointResponse> updatePickUpPoint(@PathVariable Long id, @RequestBody PickUpPointRequest request) {
+    public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody PickUpPointRequest request) {
         PickUpPoint updatedPickUpPoint = pickUpPointService.updatePickUpPoint(id, request);
-        return ResponseEntity.ok(pickUpPointMapper.toResponse(updatedPickUpPoint));
+        if (updatedPickUpPoint == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pick-up point not found");
+        }
+        return pickUpPointMapper.toResponse(updatedPickUpPoint);
     }
 
     @DeleteMapping("/{id}")
@@ -65,8 +69,7 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "204", description = "Pick-up point deleted successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Pick-up point not found", content = @Content)
     })
-    public ResponseEntity<Void> deletePickUpPoint(@PathVariable Long id) {
+    public void deletePickUpPoint(@PathVariable Long id) {
         pickUpPointService.deletePickUpPoint(id);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +36,15 @@ public class PickUpPointService {
         return pickUpPointRepository.save(pickUpPoint);
     }
 
-    public PickUpPoint findById(Long id) {
-        return pickUpPointRepository.findById(id).orElse(null);
+    public Optional<PickUpPoint> findById(Long id) {
+        return pickUpPointRepository.findById(id);
     }
+
+    public String findPickUpPointAddressById(Long id) {
+        return findById(id).map(PickUpPoint::getAddress)
+                .orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id " + id));
+    }
+
 
     public PickUpPoint updatePickUpPoint(Long id, PickUpPointRequest request) {
         PickUpPoint pickUpPoint = pickUpPointRepository.findById(id)

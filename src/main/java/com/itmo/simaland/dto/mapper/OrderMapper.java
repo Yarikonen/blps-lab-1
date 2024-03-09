@@ -12,6 +12,8 @@ public interface OrderMapper {
 
 
     @Mapping(source = "customer", target = "customer.id")
+    @Mapping(source = "address", target = "pickUpAddress")
+    @Mapping(source="pickUpPointAddress", target="pickUpPointId")
     Order mapToOrder(CreateOrderRequest request);
 
     Item mapToItem(Long id);

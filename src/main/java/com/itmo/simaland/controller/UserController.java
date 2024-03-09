@@ -13,12 +13,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Tag(name = "User controller", description = "User controller")
@@ -49,13 +48,13 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid user data provided"),
             @ApiResponse(responseCode = "409", description = "Username already exists")
     })
-    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest) {
+    public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
         if(userService.isUsernameExists(userRequest.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
         User user = userMapper.toUser(userRequest);
         User savedUser = userService.createUser(user);
-        return new ResponseEntity<>(userMapper.toUserResponse(savedUser), HttpStatus.CREATED);
+        return userMapper.toUserResponse(savedUser);
     }
 
 
@@ -64,7 +63,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Role updated")
     public UserResponse updateUserRole(@PathVariable("id") Long id, @RequestParam("role") Role role) {
         User user = userService.updateUserRole(id, role);
-        return (userMapper.toUserResponse(user));
+        return userMapper.toUserResponse(user);
     }
 
     @PatchMapping("/{id}/status")
@@ -72,7 +71,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Status updated")
     public UserResponse updateUserStatus(@PathVariable("id") Long id, @RequestParam("status") Status status) {
         User user = userService.updateUserStatus(id, status);
-        return (userMapper.toUserResponse(user));
+        return userMapper.toUserResponse(user);
     }
 
     @PatchMapping("/{id}/username")
@@ -82,19 +81,12 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid username provided", content = @Content)
     })
-    public ResponseEntity<UserResponse> updateUsername(@PathVariable("id") Long id, @RequestParam("username") String username) {
-        try {
-            if(userService.isUsernameExists(username)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-            User user = userService.updateUsername(id, username);
-            UserResponse userResponse = userMapper.toUserResponse(user);
-            return ResponseEntity.ok(userResponse);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+    public UserResponse updateUsername(@PathVariable("id") Long id, @RequestParam("username") String username) {
+        if (userService.isUsernameExists(username)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
+        User user = userService.updateUsername(id, username);
+        return userMapper.toUserResponse(user);
     }
 
     @DeleteMapping("/{id}")
@@ -103,8 +95,7 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "User deleted successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
     }
 }

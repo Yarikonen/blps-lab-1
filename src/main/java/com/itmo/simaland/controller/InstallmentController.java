@@ -9,11 +9,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Tag(name = "Installment controller")
@@ -33,12 +32,12 @@ public class InstallmentController {
             @ApiResponse(responseCode = "400", description = "Installment processing failed",
                     content = @Content)
     })
-    public ResponseEntity<InstallmentResponse> processInstallment(@RequestBody InstallmentRequest request) {
+    public InstallmentResponse processInstallment(@RequestBody InstallmentRequest request) {
         InstallmentResponse response = installmentService.processInstallment(request);
         if (response.isApproved()) {
-            return ResponseEntity.ok(response);
+            return response;
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Installment processing failed");
         }
     }
 

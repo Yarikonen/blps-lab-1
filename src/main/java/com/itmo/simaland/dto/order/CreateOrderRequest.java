@@ -1,6 +1,7 @@
 package com.itmo.simaland.dto.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.itmo.simaland.model.enums.AddressType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,16 @@ public class CreateOrderRequest {
         @JsonProperty("customer")
         private Long customer;
 
+
+        @JsonProperty("your_address")
+        private String address;
+
         @NotNull
-        @NotEmpty
-        @JsonProperty("pick_up_address")
-        private String pickUpAddress;
+        @JsonProperty("address_type")
+        private AddressType addressType;
+
+        @JsonProperty("pick_up_point_id")
+        private Long pickUpPointAddress;
 
         @NotEmpty
         @JsonProperty("items")

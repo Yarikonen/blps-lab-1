@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,14 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/list")
+    @GetMapping()
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list")
     Page<OrderResponse> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
         return orderService.getOrders(pageRequest.toPageRequest()).map(orderMapper::mapToResponse);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @Operation(summary = "Create order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
@@ -43,7 +44,7 @@ public class OrderController {
             @ApiResponse(responseCode = "404", description = "User not found ", content = @Content)
     }
     )
-    public OrderResponse createOrder(@RequestBody CreateOrderRequest request) {
+    public OrderResponse createOrder(@RequestBody @Valid CreateOrderRequest request) {
         return Stream.of(request)
                 .map(orderMapper::mapToOrder)
                 .map(orderService::createOrder)
@@ -51,9 +52,14 @@ public class OrderController {
                 .findFirst().get();
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary= "Delete order")
-    @ApiResponse(responseCode = "200", description = "Order deleted")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Order deleted"),
+                    @ApiResponse(responseCode = "204", description = "Order not found")
+            }
+    )
     public void deleteOrder(@PathVariable Long id) {
         orderService.removeOrderById(id);
     }

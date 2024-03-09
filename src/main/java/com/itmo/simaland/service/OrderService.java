@@ -1,11 +1,15 @@
 package com.itmo.simaland.service;
 
 
+import com.itmo.simaland.exception.handler.AttributeMissingException;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
+import com.itmo.simaland.model.enums.AddressType;
 import com.itmo.simaland.repository.OrderRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,8 +29,9 @@ public class OrderService {
     private final ItemService itemService;
     private final UserService userService;
 
+    private final PickUpPointService pickUpPointService;
+
     public Order createOrder(Order order) {
-        System.out.println(order.getPickUpAddress().toString());
         return orderRepository.save(enrichOrder(order));
     }
 
@@ -47,7 +52,18 @@ public class OrderService {
     }
 
     private Order enrichOrder(Order order) {
-        System.out.println(order.getPickUpAddress());
+        if (order.getAddressType()== AddressType.PickUp){
+            Long pickUpPointId = order.getPickUpPointId();
+            if (pickUpPointId==null) {
+                throw new AttributeMissingException("Pick up point is not presented");
+            }
+            order.setPickUpAddress(pickUpPointService.findPickUpPointAddressById(pickUpPointId));
+        }
+        else {
+            if (order.getPickUpAddress().isEmpty()){
+                throw new AttributeMissingException("Pick up address is not presented");
+            }
+        }
         order.setCustomer(userService.getUserById(order.getCustomer().getId()));
         order.setItems(
                 itemService.getAllItemsByIds( order.getItems()

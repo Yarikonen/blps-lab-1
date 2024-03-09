@@ -16,8 +16,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -50,11 +48,10 @@ public class ItemController {
             @ApiResponse(responseCode = "201", description = "Item created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)
     })
-    public ResponseEntity<ItemResponse> createItem(@RequestBody @Valid ItemRequest itemRequest) {
+    public ItemResponse createItem(@RequestBody @Valid ItemRequest itemRequest) {
         Item item = itemMapper.toItem(itemRequest);
         Item savedItem = itemService.createItem(item);
-        ItemResponse itemResponse = itemMapper.toItemResponse(savedItem);
-        return new ResponseEntity<>(itemResponse, HttpStatus.CREATED);
+        return itemMapper.toItemResponse(savedItem);
     }
 
     @PutMapping("/{id}")
@@ -64,12 +61,11 @@ public class ItemController {
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)
     })
-    public ResponseEntity<ItemResponse> updateItem(@PathVariable Long id, @RequestBody @Valid ItemRequest itemRequest) {
+    public ItemResponse updateItem(@PathVariable Long id, @RequestBody @Valid ItemRequest itemRequest) {
         Item item = itemMapper.toItem(itemRequest);
         item.setId(id);
         Item updatedItem = itemService.updateItem(item);
-        ItemResponse itemResponse = itemMapper.toItemResponse(updatedItem);
-        return ResponseEntity.ok(itemResponse);
+        return itemMapper.toItemResponse(updatedItem);
     }
 
     @DeleteMapping("/{id}")
@@ -78,8 +74,7 @@ public class ItemController {
             @ApiResponse(responseCode = "200", description = "Item updated", content = @Content),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content)
     })
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
+    public void deleteItem(@PathVariable Long id) {
         itemService.deleteItem(id);
-        return ResponseEntity.noContent().build();
     }
 }

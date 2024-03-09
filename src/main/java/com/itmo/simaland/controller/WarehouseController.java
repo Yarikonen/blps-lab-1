@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Tag(name = "Warehouse Controller", description = "Warehouse Controller")
@@ -27,13 +27,12 @@ public class WarehouseController {
     @GetMapping("/{id}")
     @Operation(summary = "Get a warehouse by its ID")
     @ApiResponse(responseCode = "200", description = "OK")
-    public ResponseEntity<WarehouseResponse> getWarehouseById(@PathVariable Long id) {
+    public WarehouseResponse getWarehouseById(@PathVariable Long id) {
         Warehouse warehouse = warehouseService.findById(id);
         if (warehouse == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
         }
-        WarehouseResponse warehouseResponse = warehouseMapper.toResponse(warehouse);
-        return new ResponseEntity<>(warehouseResponse, HttpStatus.OK);
+        return warehouseMapper.toResponse(warehouse);
     }
 
     @PostMapping
@@ -55,13 +54,12 @@ public class WarehouseController {
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid warehouse data provided", content = @Content)
     })
-    public ResponseEntity<WarehouseResponse> updateWarehouse(@PathVariable Long id, @RequestBody WarehouseRequest request) {
+    public WarehouseResponse updateWarehouse(@PathVariable Long id, @RequestBody WarehouseRequest request) {
         Warehouse updatedWarehouse = warehouseService.updateWarehouse(id, request);
         if (updatedWarehouse == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
         }
-        WarehouseResponse warehouseResponse = warehouseMapper.toResponse(updatedWarehouse);
-        return ResponseEntity.ok(warehouseResponse);
+        return warehouseMapper.toResponse(updatedWarehouse);
     }
 
     @DeleteMapping("/{id}")
@@ -70,8 +68,7 @@ public class WarehouseController {
             @ApiResponse(responseCode = "204", description = "Warehouse deleted successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
     })
-    public ResponseEntity<Void> deleteWarehouse(@PathVariable Long id) {
+    public void deleteWarehouse(@PathVariable Long id) {
         warehouseService.deleteWarehouse(id);
-        return ResponseEntity.noContent().build();
     }
 }
