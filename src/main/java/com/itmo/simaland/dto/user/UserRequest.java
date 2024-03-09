@@ -11,13 +11,13 @@ import lombok.Setter;
 @Getter
 public class UserRequest {
 
-    @NotNull
     @NotEmpty
     @JsonProperty("username")
+    @NotNull
     private String username;
 
-    @NotNull
     @NotEmpty
     @JsonProperty("password")
+    @NotNull
     private String password;
 }

@@ -14,7 +14,7 @@ public class SqlExceptionHandler {
 
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String,String>> handleNotFoundException(EntityNotFoundException exception) {
+    public ResponseEntity<Map<String,String>> handleNotFoundException(DataIntegrityViolationException exception) {
         String message = exception.getMessage().contains("unique_username_constraint") ? "Username already exist" : "Unexpected exception: " + exception.getMessage();
 
         return new ResponseEntity<>(Map.of("error", message), HttpStatus.CONFLICT);
