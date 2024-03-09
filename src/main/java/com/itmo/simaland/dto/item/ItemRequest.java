@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ItemRequest {
+
     @NotNull(message = "Название не может быть пустым")
     private String name;
 

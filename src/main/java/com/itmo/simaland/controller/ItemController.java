@@ -37,7 +37,7 @@ public class ItemController {
     @ApiResponse(responseCode = "200", description = "Items list", content =  @Content)
     public List<ItemResponse> getAllItems(
             PaginationRequest paginationRequest,
-            ItemFilter itemFilter) {
+            @Valid ItemFilter itemFilter) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();
         Page<Item> page = itemService.getAllItems(pageRequest, itemFilter);

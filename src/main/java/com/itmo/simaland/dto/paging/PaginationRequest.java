@@ -2,6 +2,10 @@ package com.itmo.simaland.dto.paging;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,19 +20,23 @@ import java.util.Optional;
 @NoArgsConstructor
 public class PaginationRequest {
 
-    private final Integer defaultPage = 0;
-    private final Integer defaultSize = 10;
+    private static final Integer DEFAULT_PAGE = 0;
+    private static final Integer DEFAULT_SIZE = 10;
 
+    @Min(0)
     @JsonProperty("page_number")
     private Integer pageNumber;
 
+
+    @Positive
+    @Max(1000)
     @JsonProperty("page_size")
     private Integer pageSize;
 
     public PageRequest toPageRequest() {
         return PageRequest.of(
-                Optional.ofNullable(pageNumber).orElse(defaultPage),
-                Optional.ofNullable(pageSize).orElse(defaultSize)
+                Optional.ofNullable(pageNumber).orElse(DEFAULT_PAGE),
+                Optional.ofNullable(pageSize).orElse(DEFAULT_SIZE)
         );
     }
 }

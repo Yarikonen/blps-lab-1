@@ -62,7 +62,7 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "404", description = "Pick-up point not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
-    public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody UpdatePickUpPointRequest updateRequest) {
+    public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody @Valid UpdatePickUpPointRequest updateRequest) {
         PickUpPoint updatedPickUpPoint = pickUpPointService.updatePickUpPoint(id, updateRequest);
         return pickUpPointMapper.toResponse(updatedPickUpPoint);
     }

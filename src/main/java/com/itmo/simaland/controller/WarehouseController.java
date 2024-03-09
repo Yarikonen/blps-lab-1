@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class WarehouseController {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid warehouse data provided", content = @Content)
     })
-    public WarehouseResponse createWarehouse(@RequestBody WarehouseRequest request) {
+    public WarehouseResponse createWarehouse(@Valid @RequestBody WarehouseRequest request) {
         Warehouse warehouse = warehouseMapper.toEntity(request);
         warehouse = warehouseService.save(warehouse);
         return warehouseMapper.toResponse(warehouse);
@@ -55,7 +56,7 @@ public class WarehouseController {
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid warehouse data provided", content = @Content)
     })
-    public WarehouseResponse updateWarehouse(@PathVariable Long id, @RequestBody WarehouseRequest request) {
+    public WarehouseResponse updateWarehouse(@PathVariable Long id, @RequestBody @Valid WarehouseRequest request) {
         Warehouse updatedWarehouse = warehouseService.updateWarehouse(id, request);
         return warehouseMapper.toResponse(updatedWarehouse);
     }

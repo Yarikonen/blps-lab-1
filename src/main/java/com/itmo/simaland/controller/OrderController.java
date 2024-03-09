@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -32,9 +33,9 @@ public class OrderController {
 
     @GetMapping
     @Operation(summary = "Get all orders")
-    @ApiResponse(responseCode = "200", description = "Order list")
-    Page<OrderResponse> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
-        return orderService.getOrders(pageRequest.toPageRequest()).map(orderMapper::mapToResponse);
+    @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
+    List<OrderResponse> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
+        return orderService.getOrders(pageRequest.toPageRequest()).map(orderMapper::mapToResponse).stream().toList();
     }
 
     @PostMapping
