@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class WarehouseService {
@@ -19,13 +21,16 @@ public class WarehouseService {
         return warehouseRepository.save(warehouse);
     }
 
-    public Warehouse findById(Long id) {
-        return warehouseRepository.findById(id).orElse(null);
+    public Optional<Warehouse> findById(Long id) {
+        return warehouseRepository.findById(id);
+    }
+
+    public Warehouse getById(Long id) {
+        return findById(id).orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id " + id));
     }
 
     public Warehouse updateWarehouse(Long id, WarehouseRequest request) {
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id: " + id));
+        Warehouse warehouse = getById(id);
 
         warehouse.setAddress(request.getAddress());
 

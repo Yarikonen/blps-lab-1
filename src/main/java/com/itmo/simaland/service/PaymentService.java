@@ -14,7 +14,7 @@ public class PaymentService {
         // имитация
         // в реальном приложении здесь будет интеграция с платежной системой
         Order order = orderService.getOrderById(paymentRequest.getOrderId());
-        orderService.markOrderAsPaid(order.getId());
+        orderService.updateOrderPaidStatus(order.getId(),true);
         return paymentRequest.getCardNumber() != null && paymentRequest.getCardNumber().length() == 16;
     }
 }

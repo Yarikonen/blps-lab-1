@@ -22,42 +22,29 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return findUserById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return findUserById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
     public User createUser(User user) {
-        user.setRole(Role.CUSTOMER);
-        user.setStatus(Status.Active);
         return userRepository.save(user);
     }
 
     public User updateUserRole(Long userId, Role newRole) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        User user = getUserById(userId);
         user.setRole(newRole);
         return userRepository.save(user);
     }
 
     public User updateUserStatus(Long userId, Status newStatus) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        User user = getUserById(userId);
         user.setStatus(newStatus);
         return userRepository.save(user);
     }
 
-    public User updateUsername(Long id, String username) throws EntityNotFoundException, IllegalArgumentException {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
+    public User updateUsername(Long id, String username) {
+        User user = getUserById(id);
         user.setUsername(username);
         return userRepository.save(user);
-    }
-
-    public boolean isUsernameExists(String username) {
-        return userRepository.findByUsername(username).isPresent();
     }
 
     public void deleteUser(Long id) {

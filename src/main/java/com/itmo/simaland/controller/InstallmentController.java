@@ -33,12 +33,7 @@ public class InstallmentController {
                     content = @Content)
     })
     public InstallmentResponse processInstallment(@RequestBody InstallmentRequest request) {
-        InstallmentResponse response = installmentService.processInstallment(request);
-        if (response.isApproved()) {
-            return response;
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Installment processing failed");
-        }
+        return installmentService.processInstallment(request);
     }
 
 }

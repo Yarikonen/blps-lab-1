@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateOrderRequest {
 
-        @NotNull
+        @NotNull(message = "Customer id must not be null")
         @JsonProperty("customer")
         private Long customer;
 
@@ -26,14 +26,14 @@ public class CreateOrderRequest {
         @JsonProperty("your_address")
         private String address;
 
-        @NotNull
+        @NotNull(message = "Address type must not be null")
         @JsonProperty("address_type")
         private AddressType addressType;
 
         @JsonProperty("pick_up_point_id")
         private Long pickUpPointAddress;
 
-        @NotEmpty
+        @NotEmpty(message = "Items must not be empty")
         @JsonProperty("items")
         private List<Long> items;
 

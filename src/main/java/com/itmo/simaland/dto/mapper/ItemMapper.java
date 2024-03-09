@@ -13,11 +13,7 @@ public interface ItemMapper {
 
     Item toItem(ItemRequest itemRequest);
 
-    @Mapping(target = "price", source = "price")
-    ItemRequest toItemRequest(Item item);
+    Item toItemWithId(ItemRequest itemRequest, Long id);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "price", source = "price")
     ItemResponse toItemResponse(Item item);
 }

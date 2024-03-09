@@ -16,8 +16,8 @@ import java.util.Optional;
 @NoArgsConstructor
 public class PaginationRequest {
 
-    private static final Integer defaultPage = 0;
-    private static final Integer defaultSize = 10;
+    private final Integer defaultPage = 0;
+    private final Integer defaultSize = 10;
 
     @JsonProperty("page_number")
     private Integer pageNumber;

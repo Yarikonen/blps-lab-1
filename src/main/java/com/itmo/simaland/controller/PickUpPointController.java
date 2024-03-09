@@ -12,12 +12,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @Tag(name = "PickUpPoint Controller", description = "PickUpPoint Controller")
@@ -28,13 +31,14 @@ public class PickUpPointController {
     private final PickUpPointService pickUpPointService;
     private final PickUpPointMapper pickUpPointMapper;
 
+
     @GetMapping
     @Operation(summary = "Get all pick-up points")
     @ApiResponse(responseCode = "200", description = "OK", content = @Content)
-    public Page<PickUpPointResponse> getPickUpPoints(@Parameter(description = "Pagination request") PaginationRequest paginationRequest) {
+    public List<PickUpPointResponse> getPickUpPoints(@Parameter(description = "Pagination request") PaginationRequest paginationRequest) {
         PageRequest pageRequest = paginationRequest.toPageRequest();
         Page<PickUpPoint> pickUpPoints = pickUpPointService.findAll(pageRequest);
-        return pickUpPoints.map(pickUpPointMapper::toResponse);
+        return pickUpPoints.map(pickUpPointMapper::toResponse).stream().toList();
     }
 
     @PostMapping
@@ -43,8 +47,10 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
-    public PickUpPointResponse createPickUpPoint(@RequestBody PickUpPointRequest request) {
-        PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(request);
+    public PickUpPointResponse createPickUpPoint(@Valid @RequestBody PickUpPointRequest request) {
+
+
+        PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(pickUpPointMapper.toEntity(request));
         return pickUpPointMapper.toResponse(pickUpPoint);
     }
 
@@ -57,9 +63,6 @@ public class PickUpPointController {
     })
     public PickUpPointResponse updatePickUpPoint(@PathVariable Long id, @RequestBody PickUpPointRequest request) {
         PickUpPoint updatedPickUpPoint = pickUpPointService.updatePickUpPoint(id, request);
-        if (updatedPickUpPoint == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pick-up point not found");
-        }
         return pickUpPointMapper.toResponse(updatedPickUpPoint);
     }
 

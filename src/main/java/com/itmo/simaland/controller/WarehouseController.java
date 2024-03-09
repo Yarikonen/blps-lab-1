@@ -26,12 +26,13 @@ public class WarehouseController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a warehouse by its ID")
-    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)
+    }
+    )
     public WarehouseResponse getWarehouseById(@PathVariable Long id) {
-        Warehouse warehouse = warehouseService.findById(id);
-        if (warehouse == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
-        }
+        Warehouse warehouse = warehouseService.getById(id);
         return warehouseMapper.toResponse(warehouse);
     }
 
@@ -43,8 +44,8 @@ public class WarehouseController {
     })
     public WarehouseResponse createWarehouse(@RequestBody WarehouseRequest request) {
         Warehouse warehouse = warehouseMapper.toEntity(request);
-        Warehouse savedWarehouse = warehouseService.save(warehouse);
-        return warehouseMapper.toResponse(savedWarehouse);
+        warehouse = warehouseService.save(warehouse);
+        return warehouseMapper.toResponse(warehouse);
     }
 
     @PutMapping("/{id}")
@@ -56,9 +57,6 @@ public class WarehouseController {
     })
     public WarehouseResponse updateWarehouse(@PathVariable Long id, @RequestBody WarehouseRequest request) {
         Warehouse updatedWarehouse = warehouseService.updateWarehouse(id, request);
-        if (updatedWarehouse == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
-        }
         return warehouseMapper.toResponse(updatedWarehouse);
     }
 

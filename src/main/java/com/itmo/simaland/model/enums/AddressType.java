@@ -1,5 +1,5 @@
 package com.itmo.simaland.model.enums;
 
 public enum AddressType {
-    PickUp, Delivery
+    PICK_UP, DELIVERY
 }

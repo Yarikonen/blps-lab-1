@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +51,6 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Username already exists")
     })
     public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
-        if(userService.isUsernameExists(userRequest.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
-        }
         User user = userMapper.toUser(userRequest);
         User savedUser = userService.createUser(user);
         return userMapper.toUserResponse(savedUser);
@@ -81,10 +80,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid username provided", content = @Content)
     })
-    public UserResponse updateUsername(@PathVariable("id") Long id, @RequestParam("username") String username) {
-        if (userService.isUsernameExists(username)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
-        }
+    public UserResponse updateUsername(@PathVariable("id") Long id, @NotNull @NotEmpty @RequestParam("username") String username) {
         User user = userService.updateUsername(id, username);
         return userMapper.toUserResponse(user);
     }

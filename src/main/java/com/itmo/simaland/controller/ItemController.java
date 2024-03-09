@@ -18,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Tag(name = "Item Controller", description = "Item Controller")
 @RequiredArgsConstructor
@@ -32,14 +34,14 @@ public class ItemController {
     @GetMapping
     @Operation(summary = "Get all items")
     @ApiResponse(responseCode = "200", description = "Items list", content =  @Content)
-    public Page<ItemResponse> getAllItems(
+    public List<ItemResponse> getAllItems(
             PaginationRequest paginationRequest,
             ItemFilter itemFilter) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();
         Page<Item> page = itemService.getAllItems(pageRequest, itemFilter);
 
-        return page.map(itemMapper::toItemResponse);
+        return page.map(itemMapper::toItemResponse).stream().toList();
     }
 
     @PostMapping
@@ -62,10 +64,9 @@ public class ItemController {
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)
     })
     public ItemResponse updateItem(@PathVariable Long id, @RequestBody @Valid ItemRequest itemRequest) {
-        Item item = itemMapper.toItem(itemRequest);
-        item.setId(id);
-        Item updatedItem = itemService.updateItem(item);
-        return itemMapper.toItemResponse(updatedItem);
+        Item item = itemMapper.toItemWithId(itemRequest,id);
+        item = itemService.updateItem(item);
+        return itemMapper.toItemResponse(item);
     }
 
     @DeleteMapping("/{id}")

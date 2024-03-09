@@ -6,19 +6,15 @@ import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.model.enums.AddressType;
 import com.itmo.simaland.repository.OrderRepository;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @RequiredArgsConstructor
@@ -40,7 +36,7 @@ public class OrderService {
     }
 
     public Order getOrderById(Long id) {
-        return findOrderById(id).orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        return findOrderById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
     }
 
     public Page<Order> getOrders(PageRequest pageRequest){
@@ -52,12 +48,12 @@ public class OrderService {
     }
 
     private Order enrichOrder(Order order) {
-        if (order.getAddressType()== AddressType.PickUp){
+        if (order.getAddressType()== AddressType.PICK_UP){
             Long pickUpPointId = order.getPickUpPointId();
             if (pickUpPointId==null) {
                 throw new AttributeMissingException("Pick up point is not presented");
             }
-            order.setPickUpAddress(pickUpPointService.findPickUpPointAddressById(pickUpPointId));
+            order.setPickUpAddress(pickUpPointService.getById(pickUpPointId).getAddress());
         }
         else {
             if (order.getPickUpAddress().isEmpty()){
@@ -74,10 +70,9 @@ public class OrderService {
         return order;
     }
 
-    public Order markOrderAsPaid(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
-        order.setPaid(true);
+    public Order updateOrderPaidStatus(Long orderId, boolean paid) {
+        Order order = getOrderById(orderId);
+        order.setPaid(paid);
         return orderRepository.save(order);
     }
 }

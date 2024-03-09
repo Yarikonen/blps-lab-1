@@ -5,6 +5,7 @@ import com.itmo.simaland.dto.mapper.OrderMapper;
 import com.itmo.simaland.dto.order.CreateOrderRequest;
 import com.itmo.simaland.dto.order.OrderResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
+import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,14 +30,14 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list")
     Page<OrderResponse> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
         return orderService.getOrders(pageRequest.toPageRequest()).map(orderMapper::mapToResponse);
     }
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Create order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
@@ -45,14 +46,11 @@ public class OrderController {
     }
     )
     public OrderResponse createOrder(@RequestBody @Valid CreateOrderRequest request) {
-        return Stream.of(request)
-                .map(orderMapper::mapToOrder)
-                .map(orderService::createOrder)
-                .map(orderMapper::mapToResponse)
-                .findFirst().get();
+        Order order = orderMapper.mapToOrder(request);
+        return orderMapper.mapToResponse(orderService.createOrder(order));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary= "Delete order")
     @ApiResponses(
             value = {

@@ -1,11 +1,7 @@
 package com.itmo.simaland.exception.handler;
 
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceException;
 
-
-
-public class AttributeMissingException extends PersistenceException {
+public class AttributeMissingException extends RuntimeException {
 
     public AttributeMissingException(String message) {
         super(message);

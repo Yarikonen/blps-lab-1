@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class InstallmentRequest {
     private Long orderId;
-    private int months;
+    private Integer months;
     private Double initialPayment;
 }

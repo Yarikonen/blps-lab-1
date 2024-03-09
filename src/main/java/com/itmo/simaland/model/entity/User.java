@@ -29,11 +29,11 @@ public class User {
 
     @Column(name="role")
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private Role role = Role.CUSTOMER;
 
     @Column(name="status")
     @Enumerated(value = EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @Override
     public String toString() {

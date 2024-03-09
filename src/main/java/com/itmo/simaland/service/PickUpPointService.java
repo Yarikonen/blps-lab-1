@@ -19,18 +19,15 @@ import java.util.Optional;
 public class PickUpPointService {
 
     private final PickUpPointRepository pickUpPointRepository;
-    private final WarehouseRepository warehouseRepository;
+    private final WarehouseService warehouseService;
 
     public Page<PickUpPoint> findAll(PageRequest pageRequest) {
         return pickUpPointRepository.findAll(pageRequest);
     }
 
-    public PickUpPoint createPickUpPoint(PickUpPointRequest request) {
-        PickUpPoint pickUpPoint = new PickUpPoint();
-        pickUpPoint.setAddress(request.getAddress());
+    public PickUpPoint createPickUpPoint(PickUpPoint pickUpPoint) {
 
-        Warehouse warehouse = warehouseRepository.findById(request.getWarehouseId())
-                .orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id " + request.getWarehouseId()));
+        Warehouse warehouse = warehouseService.getById(pickUpPoint.getWarehouse().getId());
         pickUpPoint.setWarehouse(warehouse);
 
         return pickUpPointRepository.save(pickUpPoint);
@@ -40,20 +37,16 @@ public class PickUpPointService {
         return pickUpPointRepository.findById(id);
     }
 
-    public String findPickUpPointAddressById(Long id) {
-        return findById(id).map(PickUpPoint::getAddress)
-                .orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id " + id));
+    public PickUpPoint getById(Long id) {
+        return findById(id).orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id " + id));
     }
 
-
     public PickUpPoint updatePickUpPoint(Long id, PickUpPointRequest request) {
-        PickUpPoint pickUpPoint = pickUpPointRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("PickUpPoint not found with id: " + id));
+        PickUpPoint pickUpPoint = getById(id);
 
         pickUpPoint.setAddress(request.getAddress());
 
-        Warehouse warehouse = warehouseRepository.findById(request.getWarehouseId())
-                .orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id: " + request.getWarehouseId()));
+        Warehouse warehouse = warehouseService.getById(request.getWarehouseId()) ;
         pickUpPoint.setWarehouse(warehouse);
 
         return pickUpPointRepository.save(pickUpPoint);
