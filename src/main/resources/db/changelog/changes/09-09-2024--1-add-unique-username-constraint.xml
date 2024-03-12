@@ -8,7 +8,6 @@
 
                               columnNames="username"
                               constraintName="unique_username_constraint"
-                              schemaName="public"
                               tableName="_user"
                               />
     </changeSet>
