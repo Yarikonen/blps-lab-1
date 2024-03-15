@@ -4,7 +4,9 @@ package com.itmo.simaland.controller;
 import com.itmo.simaland.dto.mapper.OrderMapper;
 import com.itmo.simaland.dto.order.CreateOrderRequest;
 import com.itmo.simaland.dto.order.OrderResponse;
+import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
+import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,14 +31,19 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class OrderController {
 
+
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
     @GetMapping
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
-    List<OrderResponse> getOrders(@Parameter(description = "Page number, Page size") PaginationRequest pageRequest) {
-        return orderService.getOrders(pageRequest.toPageRequest()).map(orderMapper::mapToResponse).stream().toList();
+    ListResponse<OrderResponse> getOrders(PaginationRequest paginationRequest) {
+
+        PageRequest pageRequest = paginationRequest.toPageRequest();
+        Page<Order> page = orderService.getOrders(pageRequest);
+
+        return orderMapper.pageToOrderListResponse(page);
     }
 
     @PostMapping

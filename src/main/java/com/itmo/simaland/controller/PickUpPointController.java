@@ -1,10 +1,12 @@
 package com.itmo.simaland.controller;
 
+import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.pickUpPoint.PickUpPointRequest;
 import com.itmo.simaland.dto.pickUpPoint.PickUpPointResponse;
 import com.itmo.simaland.dto.mapper.PickUpPointMapper;
 import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.dto.pickUpPoint.UpdatePickUpPointRequest;
+import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.service.PickUpPointService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,10 +38,11 @@ public class PickUpPointController {
     @GetMapping
     @Operation(summary = "Get all pick-up points")
     @ApiResponse(responseCode = "200", description = "OK", content = @Content)
-    public List<PickUpPointResponse> getPickUpPoints(@Parameter(description = "Pagination request") PaginationRequest paginationRequest) {
+    public ListResponse<PickUpPointResponse> getPickUpPoints(PaginationRequest paginationRequest) {
         PageRequest pageRequest = paginationRequest.toPageRequest();
-        Page<PickUpPoint> pickUpPoints = pickUpPointService.findAll(pageRequest);
-        return pickUpPoints.map(pickUpPointMapper::toResponse).stream().toList();
+        Page<PickUpPoint> page = pickUpPointService.getAllPickUpPoints(pageRequest);
+
+        return pickUpPointMapper.pageToPickUpPointListResponse(page) ;
     }
 
     @PostMapping

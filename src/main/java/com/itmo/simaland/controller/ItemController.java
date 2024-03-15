@@ -34,7 +34,7 @@ public class ItemController {
     @GetMapping
     @Operation(summary = "Get all items")
     @ApiResponse(responseCode = "200", description = "Items list", content =  @Content)
-    public ListResponse getAllItems(
+    public ListResponse<ItemResponse> getAllItems(
             PaginationRequest paginationRequest,
             @Valid ItemFilter itemFilter) {
 

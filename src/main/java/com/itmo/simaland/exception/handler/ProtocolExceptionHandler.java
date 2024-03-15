@@ -33,4 +33,11 @@ public class ProtocolExceptionHandler {
 
         return new ResponseEntity<>(Map.of("error", errors), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        String errors = ex.getMessage();
+
+        return new ResponseEntity<>(Map.of("error", errors), HttpStatus.BAD_REQUEST);
+    }
 }

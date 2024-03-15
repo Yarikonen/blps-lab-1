@@ -17,10 +17,4 @@ public interface UserMapper {
     User toUser(UserRequest userDTO);
 
     UserResponse toUserResponse(User user);
-
-    @Mapping(source = "totalElements", target = "totalElements")
-    @Mapping(source = "number", target = "pageNumber")
-    @Mapping(source="id", target="id")
-    ListResponse<OrderResponse> pageToUserListResponse(Page<Order> page);
-
 }

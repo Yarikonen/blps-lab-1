@@ -22,7 +22,7 @@ public class PickUpPointService {
     private final PickUpPointRepository pickUpPointRepository;
     private final WarehouseService warehouseService;
 
-    public Page<PickUpPoint> findAll(PageRequest pageRequest) {
+    public Page<PickUpPoint> getAllPickUpPoints(PageRequest pageRequest) {
         return pickUpPointRepository.findAll(pageRequest);
     }
 

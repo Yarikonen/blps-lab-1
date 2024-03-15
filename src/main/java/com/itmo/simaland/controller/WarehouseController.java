@@ -1,5 +1,6 @@
 package com.itmo.simaland.controller;
 
+import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseResponse;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,10 +38,11 @@ public class WarehouseController {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content)
     }
     )
-    public List<WarehouseResponse> getWarehouses(@Parameter(description = "Pagination request") @Valid PaginationRequest paginationRequest) {
+    public ListResponse<WarehouseResponse> getWarehouses(@Valid PaginationRequest paginationRequest) {
         PageRequest pageRequest = paginationRequest.toPageRequest();
-        Page<Warehouse> warehouses = warehouseService.findAll(pageRequest);
-        return warehouses.map(warehouseMapper::toResponse).stream().toList();
+        Page<Warehouse> page = warehouseService.findAll(pageRequest);
+
+        return warehouseMapper.pageToPickUpPointListResponse(page) ;
     }
 
     @GetMapping("/{id}")

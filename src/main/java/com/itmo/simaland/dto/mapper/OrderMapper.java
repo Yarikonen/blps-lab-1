@@ -23,7 +23,6 @@ public interface OrderMapper {
 
     @Mapping(source = "totalElements", target = "totalElements")
     @Mapping(source = "number", target = "pageNumber")
-    @Mapping(source="id", target="id")
     ListResponse<OrderResponse> pageToOrderListResponse(Page<Order> page);
 
 
