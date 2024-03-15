@@ -1,20 +1,27 @@
 package com.itmo.simaland.controller;
 
+import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseResponse;
 import com.itmo.simaland.dto.mapper.WarehouseMapper;
+import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.model.entity.Warehouse;
 import com.itmo.simaland.service.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @Tag(name = "Warehouse Controller", description = "Warehouse Controller")
@@ -24,6 +31,18 @@ public class WarehouseController {
 
     private final WarehouseService warehouseService;
     private final WarehouseMapper warehouseMapper;
+
+    @GetMapping
+    @Operation(summary = "Get all warehouses")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content)
+    }
+    )
+    public List<WarehouseResponse> getWarehouses(@Parameter(description = "Pagination request") @Valid PaginationRequest paginationRequest) {
+        PageRequest pageRequest = paginationRequest.toPageRequest();
+        Page<Warehouse> warehouses = warehouseService.findAll(pageRequest);
+        return warehouses.map(warehouseMapper::toResponse).stream().toList();
+    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a warehouse by its ID")

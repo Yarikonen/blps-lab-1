@@ -7,6 +7,8 @@ import com.itmo.simaland.model.entity.Warehouse;
 import com.itmo.simaland.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +21,10 @@ public class WarehouseService {
 
     public Warehouse save(Warehouse warehouse) {
         return warehouseRepository.save(warehouse);
+    }
+
+    public Page<Warehouse> findAll(PageRequest pageRequest) {
+        return warehouseRepository.findAll(pageRequest);
     }
 
     public Optional<Warehouse> findById(Long id) {
