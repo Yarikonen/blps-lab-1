@@ -1,6 +1,7 @@
 package com.itmo.simaland.controller;
 
 import com.itmo.simaland.dto.filter.ItemFilter;
+import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.item.ItemRequest;
 import com.itmo.simaland.dto.item.ItemResponse;
 import com.itmo.simaland.dto.item.UpdateItemRequest;
@@ -19,8 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @Tag(name = "Item Controller", description = "Item Controller")
 @RequiredArgsConstructor
@@ -35,14 +34,14 @@ public class ItemController {
     @GetMapping
     @Operation(summary = "Get all items")
     @ApiResponse(responseCode = "200", description = "Items list", content =  @Content)
-    public List<ItemResponse> getAllItems(
+    public ListResponse getAllItems(
             PaginationRequest paginationRequest,
             @Valid ItemFilter itemFilter) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();
         Page<Item> page = itemService.getAllItems(pageRequest, itemFilter);
 
-        return page.map(itemMapper::toItemResponse).stream().toList();
+        return itemMapper.pageToItemListResponse(page) ;
     }
 
     @PostMapping

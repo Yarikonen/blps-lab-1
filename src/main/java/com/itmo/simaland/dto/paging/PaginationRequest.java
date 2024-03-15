@@ -24,13 +24,13 @@ public class PaginationRequest {
     private static final Integer DEFAULT_SIZE = 10;
 
     @Min(0)
-    @JsonProperty("page_number")
+    @JsonProperty("pageNumber")
     private Integer pageNumber;
 
 
     @Positive
-    @Max(1000)
-    @JsonProperty("page_size")
+    @Max(10)
+    @JsonProperty("pageSize")
     private Integer pageSize;
 
     public PageRequest toPageRequest() {
