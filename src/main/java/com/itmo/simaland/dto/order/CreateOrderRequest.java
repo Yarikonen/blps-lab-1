@@ -35,6 +35,5 @@ public class CreateOrderRequest {
 
         @NotEmpty(message = "Items must not be empty")
         @JsonProperty("items")
-        private List<Long> items;
-
+        private List<ItemQuantity> items;
 }

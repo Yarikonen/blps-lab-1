@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
 
+    @Mapping(source = "quantity", target = "quantity")
     Item toItem(ItemRequest itemRequest);
 
     Item toItemWithId(ItemRequest itemRequest, Long id);

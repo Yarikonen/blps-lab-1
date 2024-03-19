@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.25.xsd">
+    <changeSet id="create-order-item-table" author="nastyabeggin">
+        <createTable tableName="order_item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_order_item_order"
+                                 baseTableName="order_item"
+                                 baseColumnNames="order_id"
+                                 referencedTableName="_order"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_order_item_item"
+                                 baseTableName="order_item"
+                                 baseColumnNames="item_id"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropTable tableName="order_item"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

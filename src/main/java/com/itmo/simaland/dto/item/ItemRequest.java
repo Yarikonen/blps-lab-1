@@ -18,4 +18,8 @@ public class ItemRequest {
     @Positive(message = "Цена должна быть положительным числом")
     @NotNull(message = "Цена не может быть пустой")
     private Integer price;
+
+    @Positive(message = "Количество должно быть положительным числом")
+    @NotNull(message = "Количество не может быть пустым")
+    private Integer quantity;
 }

@@ -6,11 +6,9 @@ import com.itmo.simaland.dto.order.CreateOrderRequest;
 import com.itmo.simaland.dto.order.OrderResponse;
 import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
-import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,9 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Stream;
 
 
 @RestController
@@ -70,15 +65,4 @@ public class OrderController {
     public void deleteOrder(@PathVariable Long id) {
         orderService.removeOrderById(id);
     }
-
-
-
-
-
-
-
-
-
-
-
 }

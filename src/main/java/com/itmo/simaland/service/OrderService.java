@@ -4,6 +4,7 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.exception.handler.AttributeMissingException;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
+import com.itmo.simaland.model.entity.OrderItem;
 import com.itmo.simaland.model.enums.AddressType;
 import com.itmo.simaland.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,8 +30,11 @@ public class OrderService {
 
     private final PickUpPointService pickUpPointService;
 
+    @Transactional
     public Order createOrder(Order order) {
-        return orderRepository.save(enrichOrder(order));
+        order.setOrderItems(itemService.reserveItems(order.getOrderItems()));
+        Order enrichedOrder = enrichOrder(order);
+        return orderRepository.save(enrichedOrder);
     }
 
     public Optional<Order> findOrderById(Long id) {
@@ -61,11 +67,16 @@ public class OrderService {
             }
         }
         order.setCustomer(userService.getUserById(order.getCustomer().getId()));
-        order.setItems(
-                itemService.getAllItemsByIds( order.getItems()
-                        .stream().map(Item::getId)
-                        .collect(Collectors.toList()))
-        );
+        List<OrderItem> orderItems = order.getOrderItems().stream()
+                .map(itemQuantity -> {
+                    Item item = itemQuantity.getItem();
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setItem(item);
+                    orderItem.setQuantity(itemQuantity.getQuantity());
+                    orderItem.setOrder(order);
+                    return orderItem;
+                }).collect(Collectors.toList());
+        order.setOrderItems(orderItems);
         order.setOrderDate(LocalDate.now());
         return order;
     }

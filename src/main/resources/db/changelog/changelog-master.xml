@@ -15,4 +15,6 @@
     <include file="classpath:db/changelog/changes/01-03-2024--1-add-column-order-paid.xml" relativeToChangelogFile="false"/>
     <include file="classpath:db/changelog/changes/01-03-2024--2-rename-order-table.xml" relativeToChangelogFile="false"/>
     <include file="classpath:db/changelog/changes/09-09-2024--1-add-unique-username-constraint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:db/changelog/changes/19-03-2024--1-add-row-to-item-table.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:db/changelog/changes/19-03-2024--2-create-order-item-table.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

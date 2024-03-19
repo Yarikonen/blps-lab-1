@@ -3,17 +3,19 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.dto.item.UpdateItemRequest;
 import com.itmo.simaland.model.entity.Item;
+import com.itmo.simaland.model.entity.OrderItem;
 import com.itmo.simaland.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.criteria.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -45,13 +47,16 @@ public class ItemService {
         return itemRepository.findAll(spec, pageRequest);
     }
 
-
     public Item createItem(Item item) {
         return itemRepository.save(item);
     }
 
     public List<Item> getAllItemsByIds(List<Long> ids) {
         return itemRepository.findAllById(ids);
+    }
+
+    public Item getItemById(Long id) {
+        return itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
     }
 
     public Item updateItem(Long id, UpdateItemRequest updateRequest) {
@@ -62,9 +67,23 @@ public class ItemService {
         }).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
     }
 
-
     public void deleteItem(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
         itemRepository.delete(item);
+    }
+
+    @Transactional
+    public List<OrderItem> reserveItems(List<OrderItem> orderItems) {
+        for (OrderItem orderItem : orderItems) {
+            Item storedItem = orderItem.getItem(); // here error
+
+            if (storedItem.getQuantity() < orderItem.getQuantity()) {
+                throw new EntityNotFoundException("Not enough quantity for item: " + storedItem.getName());
+            }
+
+            storedItem.setQuantity(storedItem.getQuantity() - orderItem.getQuantity());
+            itemRepository.save(storedItem);
+        }
+        return orderItems;
     }
 }
