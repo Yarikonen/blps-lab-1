@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name="item")
 @Getter
@@ -25,6 +27,6 @@ public class Item {
     @Column(name="price")
     private Integer price;
 
-    @Column(name="quantity")
-    private Integer quantity;
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<WarehouseItem> warehouseItems;
 }

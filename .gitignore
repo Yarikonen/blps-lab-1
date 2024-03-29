@@ -32,3 +32,9 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/db/changelog/liquibase.advanced.flowfile.yaml
+/src/main/resources/db/changelog/liquibase.checks-package.yaml
+/src/main/resources/db/changelog/liquibase.endstage.flow
+/src/main/resources/db/changelog/liquibase.flowfile.yaml
+/src/main/resources/db/changelog/liquibase.flowvariables.yaml
+/src/main/resources/db/changelog/liquibase.properties

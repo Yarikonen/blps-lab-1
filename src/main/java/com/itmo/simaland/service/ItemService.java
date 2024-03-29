@@ -3,7 +3,6 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.dto.item.UpdateItemRequest;
 import com.itmo.simaland.model.entity.Item;
-import com.itmo.simaland.model.entity.OrderItem;
 import com.itmo.simaland.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,20 +68,5 @@ public class ItemService {
     public void deleteItem(Long id) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
         itemRepository.delete(item);
-    }
-
-    @Transactional
-    public List<OrderItem> reserveItems(List<OrderItem> orderItems) {
-        for (OrderItem orderItem : orderItems) {
-            Item storedItem = orderItem.getItem(); // here error
-
-            if (storedItem.getQuantity() < orderItem.getQuantity()) {
-                throw new EntityNotFoundException("Not enough quantity for item: " + storedItem.getName());
-            }
-
-            storedItem.setQuantity(storedItem.getQuantity() - orderItem.getQuantity());
-            itemRepository.save(storedItem);
-        }
-        return orderItems;
     }
 }

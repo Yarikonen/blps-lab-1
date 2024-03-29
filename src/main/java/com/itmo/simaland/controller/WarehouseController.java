@@ -2,11 +2,15 @@ package com.itmo.simaland.controller;
 
 import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
+import com.itmo.simaland.dto.warehouse.WarehouseItemRequest;
+import com.itmo.simaland.dto.warehouse.WarehouseItemResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseResponse;
 import com.itmo.simaland.dto.mapper.WarehouseMapper;
 import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.model.entity.Warehouse;
+import com.itmo.simaland.model.entity.WarehouseItem;
+import com.itmo.simaland.service.WarehouseItemService;
 import com.itmo.simaland.service.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +34,7 @@ import java.util.List;
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
+    private final WarehouseItemService warehouseItemService;
     private final WarehouseMapper warehouseMapper;
 
     @GetMapping
@@ -89,5 +94,23 @@ public class WarehouseController {
     })
     public void deleteWarehouse(@PathVariable Long id) {
         warehouseService.deleteWarehouse(id);
+    }
+
+    @PostMapping("/{id}/item")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
+    })
+    public void addItemToWarehouse(@PathVariable Long id, @RequestBody @Valid WarehouseItemRequest request) {
+        warehouseItemService.addItemToWarehouse(id, request);
+    }
+
+    @GetMapping("/{id}/items")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
+    })
+    public WarehouseItemResponse getWarehouseItems(@PathVariable Long id) {
+        return warehouseService.getWarehouseItems(id);
     }
 }
