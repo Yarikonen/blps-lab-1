@@ -21,7 +21,6 @@ public class WarehouseItemService {
     private final ItemService itemService;
     private final WarehouseService warehouseService;
 
-    @Transactional(readOnly = true)
     public Optional<WarehouseItem> findByItemId(Long itemId) {
         return warehouseItemRepository.findByItemId(itemId);
     }
