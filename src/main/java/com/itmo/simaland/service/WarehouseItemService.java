@@ -22,13 +22,12 @@ public class WarehouseItemService {
     private final WarehouseService warehouseService;
 
     @Transactional(readOnly = true)
-    public Optional<WarehouseItem> findByItem(Item item) {
-        return warehouseItemRepository.findByItem(item);
+    public Optional<WarehouseItem> findByItemId(Long itemId) {
+        return warehouseItemRepository.findByItemId(itemId);
     }
 
     public void addItemToWarehouse(Long warehouseId, WarehouseItemRequest request) {
-        Warehouse warehouse = warehouseService.findById(warehouseId)
-                .orElseThrow(() -> new EntityNotFoundException("Warehouse npt found with id " + warehouseId + "!"));
+        Warehouse warehouse = warehouseService.getById(warehouseId);
         Item item = itemService.getItemById(request.getItemId());
 
         Optional<WarehouseItem> existingWarehouseItem = warehouse.getWarehouseItems().stream()
@@ -56,7 +55,7 @@ public class WarehouseItemService {
     public void reserveItems(List<OrderItem> orderItems) {
         for (OrderItem orderItem : orderItems) {
             Item storedItem = orderItem.getItem();
-            WarehouseItem warehouseItem = findByItem(storedItem)
+            WarehouseItem warehouseItem = findByItemId(storedItem.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Warehouse item not found for item id: " + storedItem.getId()));
             if (warehouseItem.getQuantity() < orderItem.getQuantity()) {
                 throw new IllegalArgumentException("Not enough stock for item id: " + storedItem.getId());

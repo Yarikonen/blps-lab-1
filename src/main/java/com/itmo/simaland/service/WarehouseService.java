@@ -58,13 +58,10 @@ public class WarehouseService {
                 .orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id: " + warehouseId));
 
         List<ItemWithQuantityResponse> itemResponses = warehouse.getWarehouseItems().stream().map(warehouseItem -> {
-            ItemResponse itemResponse = new ItemResponse();
-            itemResponse.setId(warehouseItem.getItem().getId());
-            itemResponse.setName(warehouseItem.getItem().getName());
-            itemResponse.setPrice(warehouseItem.getItem().getPrice());
-
             ItemWithQuantityResponse itemWithQuantityResponse = new ItemWithQuantityResponse();
-            itemWithQuantityResponse.setItem(itemResponse);
+            itemWithQuantityResponse.setId(warehouseItem.getItem().getId());
+            itemWithQuantityResponse.setName(warehouseItem.getItem().getName());
+            itemWithQuantityResponse.setPrice(warehouseItem.getItem().getPrice());
             itemWithQuantityResponse.setQuantity(warehouseItem.getQuantity());
 
             return itemWithQuantityResponse;

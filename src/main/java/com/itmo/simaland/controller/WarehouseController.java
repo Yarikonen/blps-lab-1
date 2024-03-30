@@ -98,16 +98,16 @@ public class WarehouseController {
 
     @PostMapping("/{id}/item")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Items added successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
     })
     public void addItemToWarehouse(@PathVariable Long id, @RequestBody @Valid WarehouseItemRequest request) {
         warehouseItemService.addItemToWarehouse(id, request);
     }
 
-    @GetMapping("/{id}/items")
+    @GetMapping("/{id}/item")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "200", description = "Items added successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
     })
     public WarehouseItemResponse getWarehouseItems(@PathVariable Long id) {

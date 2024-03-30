@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class ItemWithQuantityResponse {
-    private ItemResponse item;
+    private Long id;
+    private String name;
+    private Integer price;
     private Integer quantity;
 }
