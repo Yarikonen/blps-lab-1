@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -33,6 +34,7 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
+    @PreAuthorize()
     ListResponse<OrderResponse> getOrders(PaginationRequest paginationRequest) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();

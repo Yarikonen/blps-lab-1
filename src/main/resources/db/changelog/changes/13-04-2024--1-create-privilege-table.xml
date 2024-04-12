@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Yarikonen" id="13-04-2024--1-create-privilege-table">
+        <createTable tableName="privilege">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints
+                        unique="true"
+                        nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
