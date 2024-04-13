@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class WarehouseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Create a new warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content),
@@ -75,6 +77,7 @@ public class WarehouseController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Update a warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Warehouse updated successfully", content = @Content),
@@ -87,6 +90,7 @@ public class WarehouseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Delete a warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Warehouse deleted successfully", content = @Content),
@@ -97,6 +101,7 @@ public class WarehouseController {
     }
 
     @PostMapping("/{id}/item")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Items added successfully", content = @Content),
             @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)

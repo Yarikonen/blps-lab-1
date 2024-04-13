@@ -8,6 +8,8 @@ import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,10 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final RoleMappingService roleMappingService;
@@ -39,9 +44,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(User user) {
-        System.out.println(user.getPassword());
+        logger.info("User trying to register with password: {}", user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(passwordEncoder.encode(user.getPassword()));
+        logger.info("Encoded password: {}", passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -73,13 +78,18 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Loading user by username: " + username);
+        logger.info("Loading user by username: {}", username);
         User customUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        System.out.println("Found user: " + customUser);
+        logger.info("Found user: {}", customUser);
         Role roleEnum = customUser.getRole();
 
         Set<Privilege> privileges = roleMappingService.getPrivilegesForRoleEnum(roleEnum);
+        String privilegeNames = privileges.stream()
+                .map(Privilege::getName)
+                .collect(Collectors.joining(", "));
+
+        logger.info("User privileges: {}", privilegeNames);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Privilege privilege : privileges) {
@@ -87,6 +97,7 @@ public class UserService implements UserDetailsService {
         }
         authorities.add(new SimpleGrantedAuthority("ROLE_" + roleEnum.name()));
 
+        logger.info("User role: {}", roleEnum.name());
         return new org.springframework.security.core.userdetails.User(
                 customUser.getUsername(),
                 customUser.getPassword(),

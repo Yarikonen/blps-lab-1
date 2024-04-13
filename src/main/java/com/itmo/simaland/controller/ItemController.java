@@ -31,7 +31,6 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
 
-
     @GetMapping
     @Operation(summary = "Get all items")
     @ApiResponse(responseCode = "200", description = "Items list", content =  @Content)
@@ -47,6 +46,7 @@ public class ItemController {
 
     @PostMapping
     @Operation(summary = "Create new item")
+    @PreAuthorize("hasAuthority('EDIT_ITEM')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)
@@ -59,7 +59,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an item")
-    @PreAuthorize("hasAuthority('EDIT_PRODUCTS')")
+    @PreAuthorize("hasAuthority('EDIT_ITEMS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item updated", content = @Content),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
@@ -72,6 +72,7 @@ public class ItemController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete an item")
+    @PreAuthorize("hasAuthority('EDIT_ITEMS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item updated", content = @Content),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content)

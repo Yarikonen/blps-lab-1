@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,6 +26,7 @@ public class InstallmentController {
     private final InstallmentService installmentService;
 
     @PostMapping("/process")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Process installment payment")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Installment processed successfully",

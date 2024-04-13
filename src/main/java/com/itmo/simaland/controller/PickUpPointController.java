@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -46,19 +47,19 @@ public class PickUpPointController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CREATE_PICKUP_POINT')")
     @Operation(summary = "Create a new pick-up point")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
     public PickUpPointResponse createPickUpPoint(@Valid @RequestBody PickUpPointRequest request) {
-
-
         PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(pickUpPointMapper.toEntity(request));
         return pickUpPointMapper.toResponse(pickUpPoint);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_PICKUP_POINT')")
     @Operation(summary = "Update a pick-up point")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pick-up point updated successfully", content = @Content),
@@ -71,6 +72,7 @@ public class PickUpPointController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_PICKUP_POINT')")
     @Operation(summary = "Delete a pick-up point")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Pick-up point deleted successfully", content = @Content),

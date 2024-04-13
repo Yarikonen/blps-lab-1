@@ -32,6 +32,7 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('VIEW_ORDERS')")
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
 //    @PreAuthorize()
@@ -44,6 +45,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CREATE_ORDER')")
     @Operation(summary = "Create order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
@@ -57,6 +59,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('DELETE_ORDER')")
     @Operation(summary= "Delete order")
     @ApiResponses(
             value = {
