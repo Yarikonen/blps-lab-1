@@ -2,11 +2,15 @@ package com.itmo.simaland.controller;
 
 import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
+import com.itmo.simaland.dto.warehouse.WarehouseItemRequest;
+import com.itmo.simaland.dto.warehouse.WarehouseItemResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
 import com.itmo.simaland.dto.warehouse.WarehouseResponse;
 import com.itmo.simaland.dto.mapper.WarehouseMapper;
 import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.model.entity.Warehouse;
+import com.itmo.simaland.model.entity.WarehouseItem;
+import com.itmo.simaland.service.WarehouseItemService;
 import com.itmo.simaland.service.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +35,7 @@ import java.util.List;
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
+    private final WarehouseItemService warehouseItemService;
     private final WarehouseMapper warehouseMapper;
 
     @GetMapping
@@ -58,6 +64,7 @@ public class WarehouseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Create a new warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content),
@@ -70,6 +77,7 @@ public class WarehouseController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Update a warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Warehouse updated successfully", content = @Content),
@@ -82,6 +90,7 @@ public class WarehouseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
     @Operation(summary = "Delete a warehouse")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Warehouse deleted successfully", content = @Content),
@@ -89,5 +98,24 @@ public class WarehouseController {
     })
     public void deleteWarehouse(@PathVariable Long id) {
         warehouseService.deleteWarehouse(id);
+    }
+
+    @PostMapping("/{id}/item")
+    @PreAuthorize("hasAuthority('EDIT_WAREHOUSE')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
+    })
+    public void addItemToWarehouse(@PathVariable Long id, @RequestBody @Valid WarehouseItemRequest request) {
+        warehouseItemService.addItemToWarehouse(id, request);
+    }
+
+    @GetMapping("/{id}/item")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Items added successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Warehouse not found", content = @Content)
+    })
+    public WarehouseItemResponse getWarehouseItems(@PathVariable Long id) {
+        return warehouseService.getWarehouseItems(id);
     }
 }

@@ -25,14 +25,14 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ItemService itemService;
+    private final WarehouseItemService warehouseItemService;
     private final UserService userService;
 
     private final PickUpPointService pickUpPointService;
 
     @Transactional
     public Order createOrder(Order order) {
-        order.setOrderItems(itemService.reserveItems(order.getOrderItems()));
+        warehouseItemService.reserveItems(order.getOrderItems());
         Order enrichedOrder = enrichOrder(order);
         return orderRepository.save(enrichedOrder);
     }

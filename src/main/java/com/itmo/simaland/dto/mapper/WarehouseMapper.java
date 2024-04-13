@@ -17,7 +17,6 @@ public interface WarehouseMapper {
 
     WarehouseResponse toResponse(Warehouse warehouse);
 
-    @Mapping(source = "totalElements", target = "totalElements")
     @Mapping(source = "number", target = "pageNumber")
     ListResponse<WarehouseResponse> pageToPickUpPointListResponse(Page<Warehouse> page);
 }

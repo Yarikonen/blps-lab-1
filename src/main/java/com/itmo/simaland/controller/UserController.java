@@ -16,8 +16,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jdk.jfr.Unsigned;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,6 +36,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(description = "Get user by id")
     @ApiResponses(
             value = {

@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -31,8 +32,10 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('VIEW_ORDERS')")
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
+//    @PreAuthorize()
     ListResponse<OrderResponse> getOrders(PaginationRequest paginationRequest) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();
@@ -42,6 +45,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CREATE_ORDER')")
     @Operation(summary = "Create order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
@@ -55,6 +59,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('DELETE_ORDER')")
     @Operation(summary= "Delete order")
     @ApiResponses(
             value = {

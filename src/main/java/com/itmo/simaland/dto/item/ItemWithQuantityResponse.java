@@ -1,14 +1,15 @@
 package com.itmo.simaland.dto.item;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-public class ItemResponse {
+@RequiredArgsConstructor
+public class ItemWithQuantityResponse {
     private Long id;
     private String name;
     private Integer price;
+    private Integer quantity;
 }

@@ -24,7 +24,6 @@ public class Warehouse {
     @Column(name = "address")
     private String address;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "warehouse_item", joinColumns = @JoinColumn(name = "warehouse_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<Item> items;
+    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<WarehouseItem> warehouseItems;
 }

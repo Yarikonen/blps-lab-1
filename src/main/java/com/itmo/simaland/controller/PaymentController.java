@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/process")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Process payment")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Оплата проведена успешно"),
