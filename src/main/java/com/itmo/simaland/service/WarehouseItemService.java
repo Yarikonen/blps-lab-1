@@ -25,6 +25,7 @@ public class WarehouseItemService {
         return warehouseItemRepository.findByItemId(itemId);
     }
 
+    @Transactional
     public void addItemToWarehouse(Long warehouseId, WarehouseItemRequest request) {
         Warehouse warehouse = warehouseService.getById(warehouseId);
         Item item = itemService.getItemById(request.getItemId());

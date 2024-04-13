@@ -1,7 +1,7 @@
 package com.itmo.simaland.model.entity;
 
 
-import com.itmo.simaland.model.enums.Role;
+import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class User {
 
     @Column(name="role")
     @Enumerated(value = EnumType.STRING)
-    private Role role = Role.CUSTOMER;
+    private RoleEnum roleEnum = RoleEnum.CUSTOMER;
 
     @Column(name="status")
     @Enumerated(value = EnumType.STRING)
@@ -37,6 +37,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password + '\'' + ", role=" + role + ", status=" + status + '}';
+        return "{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password + '\'' + ", role=" + roleEnum + ", status=" + status + '}';
     }
 }

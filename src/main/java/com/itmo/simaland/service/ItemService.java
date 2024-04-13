@@ -66,7 +66,7 @@ public class ItemService {
     }
 
     public void deleteItem(Long id) {
-        Item item = itemRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Item not found with id: " + id));
+        Item item = getItemById(id);
         itemRepository.delete(item);
     }
 }

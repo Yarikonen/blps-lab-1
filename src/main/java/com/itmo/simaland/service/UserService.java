@@ -3,7 +3,7 @@ package com.itmo.simaland.service;
 
 import com.itmo.simaland.model.entity.Privilege;
 import com.itmo.simaland.model.entity.User;
-import com.itmo.simaland.model.enums.Role;
+import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,9 +50,9 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User updateUserRole(Long userId, Role newRole) {
+    public User updateUserRole(Long userId, RoleEnum newRoleEnum) {
         User user = getUserById(userId);
-        user.setRole(newRole);
+        user.setRoleEnum(newRoleEnum);
         return userRepository.save(user);
     }
 
@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
         User customUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         logger.info("Found user: {}", customUser);
-        Role roleEnum = customUser.getRole();
+        RoleEnum roleEnum = customUser.getRoleEnum();
 
         Set<Privilege> privileges = roleMappingService.getPrivilegesForRoleEnum(roleEnum);
         String privilegeNames = privileges.stream()

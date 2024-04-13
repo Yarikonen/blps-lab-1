@@ -5,7 +5,7 @@ import com.itmo.simaland.dto.mapper.UserMapper;
 import com.itmo.simaland.dto.user.UserRequest;
 import com.itmo.simaland.dto.user.UserResponse;
 import com.itmo.simaland.model.entity.User;
-import com.itmo.simaland.model.enums.Role;
+import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Validated
@@ -65,8 +64,8 @@ public class UserController {
     @PatchMapping("/{id}/role")
     @Operation(description = "Update user role")
     @ApiResponse(responseCode = "200", description = "Role updated", content = @Content)
-    public UserResponse updateUserRole(@PathVariable("id") Long id, @RequestParam("role") Role role) {
-        User user = userService.updateUserRole(id, role);
+    public UserResponse updateUserRole(@PathVariable("id") Long id, @RequestParam("roleEnum") RoleEnum roleEnum) {
+        User user = userService.updateUserRole(id, roleEnum);
         return userMapper.toUserResponse(user);
     }
 

@@ -1,6 +1,6 @@
 package com.itmo.simaland.model.enums;
 
-public enum Role {
+public enum RoleEnum {
     CUSTOMER,
     ADMIN;
 }
