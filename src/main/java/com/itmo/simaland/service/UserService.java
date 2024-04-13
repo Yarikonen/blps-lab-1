@@ -8,12 +8,12 @@ import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +27,8 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    @Autowired
-    private RoleMappingService roleMappingService;
+    private final RoleMappingService roleMappingService;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
@@ -39,6 +39,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(User user) {
+        System.out.println(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

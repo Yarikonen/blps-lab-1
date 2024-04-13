@@ -27,7 +27,6 @@ public class SecurityConfig {
                         authorizeRequests
                                 .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
                 .httpBasic(withDefaults());
         return http.build();
     }
