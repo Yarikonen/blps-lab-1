@@ -11,7 +11,7 @@
     <groupId>com.itmo</groupId>
     <artifactId>simaland</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>blps-lab-1</name>
     <description>blps-lab-1</description>
     <properties>

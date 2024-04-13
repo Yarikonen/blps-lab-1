@@ -29,7 +29,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(HttpMethod.GET, "/items", "/pick-up-points").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/items", "/pick-up-points","/v3/api-docs/**",
+                                        "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .requestMatchers("/**").authenticated()
                 )
                 .httpBasic(withDefaults())

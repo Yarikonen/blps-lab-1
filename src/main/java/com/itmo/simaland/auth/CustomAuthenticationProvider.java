@@ -4,6 +4,7 @@ package com.itmo.simaland.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,11 +28,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if (userDetails == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new AuthenticationException("Invalid credentials") {};
+            throw new BadCredentialsException("Invalid credentials");
         }
         return new UsernamePasswordAuthenticationToken(
                 userDetails, password, userDetails.getAuthorities());
