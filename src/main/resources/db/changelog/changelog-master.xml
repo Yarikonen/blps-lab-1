@@ -17,4 +17,7 @@
     <include file="./changes/09-09-2024--1-add-unique-username-constraint.xml" relativeToChangelogFile="true"/>
     <include file="./changes/29-03-2024--1-add-quantity-to-warehouse-item.xml" relativeToChangelogFile="true"/>
     <include file="./changes/29-03-2024--2-add-id-to-order-item-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--1-create-privilege-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--2-create-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--3-create-role-privilege-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

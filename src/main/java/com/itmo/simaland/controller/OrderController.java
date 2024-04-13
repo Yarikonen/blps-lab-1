@@ -34,7 +34,7 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "Get all orders")
     @ApiResponse(responseCode = "200", description = "Order list", content = @Content)
-    @PreAuthorize()
+//    @PreAuthorize()
     ListResponse<OrderResponse> getOrders(PaginationRequest paginationRequest) {
 
         PageRequest pageRequest = paginationRequest.toPageRequest();

@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -58,6 +59,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an item")
+    @PreAuthorize("hasAuthority('EDIT_PRODUCTS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item updated", content = @Content),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),

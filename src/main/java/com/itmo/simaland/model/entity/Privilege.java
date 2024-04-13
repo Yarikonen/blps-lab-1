@@ -1,5 +1,6 @@
 package com.itmo.simaland.model.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 
+@Entity
 @Table(name = "privilege")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +24,6 @@ public class Privilege implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return null;
+        return name;
     }
 }
