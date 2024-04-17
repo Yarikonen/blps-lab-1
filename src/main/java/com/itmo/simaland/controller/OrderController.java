@@ -7,7 +7,9 @@ import com.itmo.simaland.dto.order.OrderResponse;
 import com.itmo.simaland.dto.paging.ListResponse;
 import com.itmo.simaland.dto.paging.PaginationRequest;
 import com.itmo.simaland.model.entity.Order;
+import com.itmo.simaland.service.ItemService;
 import com.itmo.simaland.service.OrderService;
+import com.itmo.simaland.service.WarehouseItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,9 +30,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
-
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     private final OrderService orderService;
+    private final ItemService itemService;
     private final OrderMapper orderMapper;
 
     @GetMapping
@@ -55,6 +60,10 @@ public class OrderController {
     )
     public OrderResponse createOrder(@RequestBody @Valid CreateOrderRequest request) {
         Order order = orderMapper.mapToOrder(request);
+        logger.debug("Mapped order: {}", order);
+        order.getOrderItems().forEach(item -> {
+            logger.debug("Order item details - Item ID: {}, Quantity: {}", item.getItem().getId(), item.getQuantity());
+        });
         return orderMapper.mapToResponse(orderService.createOrder(order));
     }
 
