@@ -46,7 +46,7 @@ public class ItemController {
 
     @PostMapping
     @Operation(summary = "Create new item")
-    @PreAuthorize("hasAuthority('EDIT_ITEM')")
+    @PreAuthorize("hasAuthority('EDIT_ITEMS')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid item data provided", content = @Content)

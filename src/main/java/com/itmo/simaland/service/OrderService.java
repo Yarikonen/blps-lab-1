@@ -5,13 +5,17 @@ import com.itmo.simaland.exception.handler.AttributeMissingException;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Order;
 import com.itmo.simaland.model.entity.OrderItem;
+import com.itmo.simaland.model.entity.PickUpPoint;
 import com.itmo.simaland.model.enums.AddressType;
 import com.itmo.simaland.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -23,17 +27,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class OrderService {
-
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
     private final OrderRepository orderRepository;
     private final WarehouseItemService warehouseItemService;
     private final UserService userService;
 
     private final PickUpPointService pickUpPointService;
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Order createOrder(Order order) {
-        warehouseItemService.reserveItems(order.getOrderItems());
+        logger.info("order items {}", order.getOrderItems());
         Order enrichedOrder = enrichOrder(order);
+        warehouseItemService.reserveItems(order.getOrderItems());
         return orderRepository.save(enrichedOrder);
     }
 
@@ -55,11 +60,11 @@ public class OrderService {
 
     private Order enrichOrder(Order order) {
         if (order.getAddressType()== AddressType.PICK_UP){
-            Long pickUpPointId = order.getPickUpPointId();
-            if (pickUpPointId==null) {
+            PickUpPoint pickUpPoint = pickUpPointService.getById(order.getPickUpPointId());
+            if (pickUpPoint==null) {
                 throw new AttributeMissingException("Pick up point is not presented");
             }
-            order.setPickUpAddress(pickUpPointService.getById(pickUpPointId).getAddress());
+            order.setPickUpAddress(pickUpPoint.getAddress());
         }
         else {
             if (order.getPickUpAddress().isEmpty()){
@@ -76,6 +81,7 @@ public class OrderService {
                     orderItem.setOrder(order);
                     return orderItem;
                 }).collect(Collectors.toList());
+        logger.info("List of order items is {}", orderItems);
         order.setOrderItems(orderItems);
         order.setOrderDate(LocalDate.now());
         return order;

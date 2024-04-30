@@ -54,7 +54,7 @@ public class PickUpPointController {
             @ApiResponse(responseCode = "400", description = "Invalid pick-up point data provided", content = @Content)
     })
     public PickUpPointResponse createPickUpPoint(@Valid @RequestBody PickUpPointRequest request) {
-        PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(pickUpPointMapper.toEntity(request));
+        PickUpPoint pickUpPoint = pickUpPointService.createPickUpPoint(request);
         return pickUpPointMapper.toResponse(pickUpPoint);
     }
 

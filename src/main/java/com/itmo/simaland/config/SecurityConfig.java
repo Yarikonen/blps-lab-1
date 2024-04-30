@@ -31,6 +31,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(HttpMethod.GET, "/items", "/pick-up-points","/v3/api-docs/**",
                                         "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/users").permitAll()
                                 .requestMatchers("/**").authenticated()
                 )
                 .httpBasic(withDefaults())

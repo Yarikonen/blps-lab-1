@@ -1,6 +1,5 @@
 package com.itmo.simaland.service;
 
-import com.itmo.simaland.dto.item.ItemResponse;
 import com.itmo.simaland.dto.item.ItemWithQuantityResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseItemResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +53,7 @@ public class WarehouseService {
         warehouseRepository.deleteById(id);
     }
 
+    @Transactional
     public WarehouseItemResponse getWarehouseItems(Long warehouseId) {
         Warehouse warehouse = warehouseRepository.findById(warehouseId)
                 .orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id: " + warehouseId));
