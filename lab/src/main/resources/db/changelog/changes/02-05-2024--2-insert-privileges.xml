@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="02-05-2024--1-insert-privileges" author="Yarikonen">
+        <insert tableName="privilege">
+            <column name="id" value="1" />
+            <column name="name" value="EDIT_ITEMS" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="2" />
+            <column name="name" value="CREATE_ORDER" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="3" />
+            <column name="name" value="EDIT_WAREHOUSE" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="4" />
+            <column name="name" value="CREATE_PICKUP_POINT" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="5" />
+            <column name="name" value="EDIT_PICKUP_POINT" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="6" />
+            <column name="name" value="VIEW_ORDERS" />
+        </insert>
+        <insert tableName="privilege">
+            <column name="id" value="7" />
+            <column name="name" value="DELETE_ORDER" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
