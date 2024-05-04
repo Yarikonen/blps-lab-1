@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5431/sima-land
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  kafka:
+    bootstrap-servers: "kafka:9092"
+    topic:
+      payment-service-topic:
+        topic-name: "payment"
+        partitions: 12
+        replication-factor: 1
+      ueban-service-topic:
+        topic-name: "payment2"
+        partitions: 12
+        replication-factor: 1
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework: DEBUG
+    org.hibernate: DEBUG
+    javax.transaction: DEBUG
