@@ -20,6 +20,7 @@
     <include file="./changes/13-04-2024--1-create-privilege-table.xml" relativeToChangelogFile="true"/>
     <include file="./changes/13-04-2024--2-create-role-table.xml" relativeToChangelogFile="true"/>
     <include file="./changes/13-04-2024--3-create-role-privilege-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/03-05-2024--1-create-report-table.xml" relativeToChangelogFile="true"/>
     <include file="./changes/02-05-2024--1-insert-roles.xml" relativeToChangelogFile="true"/>
     <include file="./changes/02-05-2024--2-insert-privileges.xml" relativeToChangelogFile="true"/>
     <include file="./changes/02-05-2024--3-insert-role-privileges.xml" relativeToChangelogFile="true"/>
