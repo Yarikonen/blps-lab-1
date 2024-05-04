@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+<!--    <includeAll path="./changes/" relativeToChangelogFile="false"/>-->
+    <include file="./changes/19-02-2024--1-create-user-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--2-create-item-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--3-create-order-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--4-create-order-item-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--5-create-warehouse-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--6-create-pick-up-point-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/19-02-2024--7-create-warehouse-item-table.xml" relativeToChangelogFile="true" />
+    <include file="./changes/20-02-2024--1-rename-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/01-03-2024--1-add-column-order-paid.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/01-03-2024--2-rename-order-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/09-09-2024--1-add-unique-username-constraint.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/29-03-2024--1-add-quantity-to-warehouse-item.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/29-03-2024--2-add-id-to-order-item-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--1-create-privilege-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--2-create-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/13-04-2024--3-create-role-privilege-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/03-05-2024--1-create-report-table.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/02-05-2024--1-insert-roles.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/02-05-2024--2-insert-privileges.xml" relativeToChangelogFile="true"/>
+    <include file="./changes/02-05-2024--3-insert-role-privileges.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

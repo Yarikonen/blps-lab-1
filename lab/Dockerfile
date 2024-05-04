@@ -1,7 +1,12 @@
 FROM maven:3.8.4-openjdk-17 as builder
 WORKDIR /app
+ADD pom.xml /app
+
+RUN ["/usr/local/bin/mvn-entrypoint.sh", "mvn", "verify", "clean", "--fail-never"]
+
+
 COPY . /app/.
-RUN mvn -Xf /app/pom.xml clean package -Dmaven.test.skip=true
+RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip=true
 
 FROM quay.io/wildfly/wildfly
 COPY --from=builder /app/target/*.war /opt/jboss/wildfly/standalone/deployments/
