@@ -23,18 +23,13 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/process")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('VIEW_ORDERS')")
     @Operation(summary = "Process payment")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Оплата проведена успешно"),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных")
     })
     public String processPayment(@RequestBody @Valid PaymentRequest paymentRequest) {
-        boolean success = paymentService.processPayment(paymentRequest);
-        if (success) {
-            return "Payment processed successfully";
-        } else {
-            return "Payment processing failed";
-        }
+        return paymentService.processPayment(paymentRequest);
     }
 }

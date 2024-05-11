@@ -16,16 +16,18 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
   kafka:
-    bootstrap-servers: "kafka:9092"
+    bootstrap-servers: "kafka-1:19092"
     topic:
       payment-service-topic:
         topic-name: "payment"
-        partitions: 12
-        replication-factor: 1
-      ueban-service-topic:
-        topic-name: "payment2"
-        partitions: 12
-        replication-factor: 1
+        partitions: 3
+        replication-factor: 3
+        min-in-sync-replicas: 2
+      confirmation-service-topic:
+        topic-name: "confirmation"
+        partitions: 3
+        replication-factor: 3
+        min-in-sync-replicas: 2
 
 logging:
   level:

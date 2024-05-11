@@ -36,6 +36,7 @@ public class KafkaHandlingService {
     private void createTopics(){
         try {
             log.info("CREATING SMTH");
+
             CreateTopicsResult result = admin.createTopics(topics);
             Set<Map.Entry<String, KafkaFuture<Void>>> futures = result.values().entrySet();
             for (Map.Entry<String, KafkaFuture<Void>> future: futures
@@ -59,14 +60,8 @@ public class KafkaHandlingService {
 
 
     public void send(String topicName, String key, String value){
-        try{
-            kafkaProducer.send(new ProducerRecord<String, String>(topicName, key, value ));
-            log.info("Message sent");
-        }
-        finally {
-            kafkaProducer.close();
-        }
-
+        kafkaProducer.send(new ProducerRecord<String, String>(topicName, key, value ));
+        log.info("Message sent");
     }
 
 

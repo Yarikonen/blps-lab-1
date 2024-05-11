@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5431/payment
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  server:
+    port: 8082
+  kafka:
+    bootstrap-servers: "kafka-1:19092, kafka-2:19093, kafka-3:19094"
+    producer:
+      confirmation-producer:
+        transaction-id: "confirmation"
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml

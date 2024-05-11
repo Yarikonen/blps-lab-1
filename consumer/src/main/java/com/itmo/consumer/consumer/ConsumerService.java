@@ -1,20 +1,30 @@
 package com.itmo.consumer.consumer;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.itmo.consumer.model.Payment;
+import com.itmo.consumer.repository.PaymentRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
+@AllArgsConstructor
 public class ConsumerService {
 
+    private KafkaTemplate<String, String> template;
+    private PaymentRepository paymentRepository;
+
+    private KafkaTransactionManager<String, String> manager;
 
 
-    @KafkaListener(topics = "payment", groupId = "consumer-1")
+    @Transactional
+    @KafkaListener(topics = "confirmation", groupId = "consumer-1")
     public void listenGroupFoo(String message) {
+        paymentRepository.save(new Payment(Long.parseLong(message), "YOO"));
+        template.send("payment", message);
         System.out.println("Received Message in group foo: " + message);
     }
 }

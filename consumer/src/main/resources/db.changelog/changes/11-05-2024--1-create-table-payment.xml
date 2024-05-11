@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Yarikonen" id="11-05-2024--1-create-payment-table">
+        <createTable tableName="payment">
+            <column name="order_id" type="BIGINT" autoIncrement="true">
+                <constraints
+                        primaryKey="true"/>
+            </column>
+            <column name="comment" type="VARCHAR">
+                <constraints
+                        unique="true"
+                        nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
