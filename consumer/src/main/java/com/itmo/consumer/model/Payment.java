@@ -1,6 +1,8 @@
 package com.itmo.consumer.model;
 
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,11 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 public class Payment {
 
-    @Column("order_id")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column("order_id")
     private Long orderId;
 
     @Column("payment_info")

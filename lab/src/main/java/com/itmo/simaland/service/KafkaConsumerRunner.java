@@ -29,15 +29,14 @@ public class KafkaConsumerRunner implements Runnable {
 
     public void run() {
         try {
-            consumer.subscribe(Arrays.asList("confirmation"));
+            consumer.subscribe(Arrays.asList("payment"));
             while (!closed.get()) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(10000));
                 for (ConsumerRecord<String,String> record: records) {
                     log.info(
-                            "topic =%s, partition =%d, offset = %d, orderId =%s, confirmation=%s\n",
-                            record.topic(), record.partition(), record.offset(), record.key(), record.value()
+                            "WINNER WINNER CHICKEN DINNER"
                     );
-                    orderService.updateOrderPaidStatus(Long.parseLong(record.key()), true );
+                    orderService.updateOrderPaidStatus(Long.parseLong(record.value()), true );
                 }
             }
         } catch (WakeupException e) {

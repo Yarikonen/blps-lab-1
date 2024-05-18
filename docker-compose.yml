@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   client-backend:
-    image: client:0.0.1
+    image: client:0.0.2
     container_name: lab
     build:
       context: lab/.
@@ -16,7 +16,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/simaland
       - SPRING_PROFILES_ACTIVE=helios
   consumer:
-    image: client:0.0.1
+    image: consumer:0.0.1
     build:
       context: consumer/.
       dockerfile: Dockerfile

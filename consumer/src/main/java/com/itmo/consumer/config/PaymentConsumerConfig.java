@@ -3,6 +3,7 @@ package com.itmo.consumer.config;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.Configuration;
@@ -47,10 +48,10 @@ public class PaymentConsumerConfig {
                 bootstrap_servers);
         props.put(
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                StringSerializer.class);
         props.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                StringSerializer.class);
         props.put(
                 ProducerConfig.TRANSACTIONAL_ID_CONFIG,
                 transactionId

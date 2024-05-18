@@ -17,13 +17,14 @@ public class ConsumerService {
     private KafkaTemplate<String, String> template;
     private PaymentRepository paymentRepository;
 
-    private KafkaTransactionManager<String, String> manager;
 
 
     @Transactional
     @KafkaListener(topics = "confirmation", groupId = "consumer-1")
     public void listenGroupFoo(String message) {
-        paymentRepository.save(new Payment(Long.parseLong(message), "YOO"));
+        if (!paymentRepository.existsById(Long.parseLong(message))){
+            paymentRepository.save(new Payment(null,  Long.parseLong(message), "info"));
+        }
         template.send("payment", message);
         System.out.println("Received Message in group foo: " + message);
     }

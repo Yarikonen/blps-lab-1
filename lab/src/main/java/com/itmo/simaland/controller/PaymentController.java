@@ -23,7 +23,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/process")
-    @PreAuthorize("hasAnyAuthority('VIEW_ORDERS')")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Process payment")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Оплата проведена успешно"),

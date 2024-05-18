@@ -34,18 +34,15 @@ public class PaymentService {
 
     private final Consumer<String, String> kafkaConsumer;
 
-    @Value("payment")
+    @Value("confirmation")
     private String topicName;
 
     public String processPayment(PaymentRequest paymentRequest) {
-        // имитация
-        // в реальном приложении здесь будет интеграция с платежной системой
-
 
         log.info("begin");
-//        Order order = orderService.getOrderById(paymentRequest.getOrderId());
-//        orderService.updateOrderPaidStatus(paymentRequest.getOrderId(),true);
-        kafkaHandlingService.send(topicName,paymentRequest.getOrderId().toString(),"Оплачено");
+        Order order = orderService.getOrderById(paymentRequest.getOrderId());
+        orderService.updateOrderPaidStatus(paymentRequest.getOrderId(),true);
+        kafkaHandlingService.send(topicName,paymentRequest.getOrderId().toString(),paymentRequest.getOrderId().toString());
         log.info("start");
         return "Payment process proceed";
 
@@ -54,8 +51,6 @@ public class PaymentService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void consumer(){
-        kafkaConsumerRunner.shutdown();
-
-
+        new Thread(kafkaConsumerRunner).start();
     }
 }
