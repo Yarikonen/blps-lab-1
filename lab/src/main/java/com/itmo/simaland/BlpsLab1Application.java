@@ -5,6 +5,7 @@ import com.itmo.simaland.model.entity.User;
 import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.service.UserService;
+import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -23,14 +24,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableProcessApplication
 @Import(QuartzConfig.class)
-public class BlpsLab1Application extends SpringBootServletInitializer {
+public class BlpsLab1Application {
     @Autowired
     private Scheduler scheduler;
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(BlpsLab1Application.class);
-    }
+
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(BlpsLab1Application.class, args);

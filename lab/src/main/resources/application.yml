@@ -28,10 +28,26 @@ spring:
         partitions: 3
         replication-factor: 3
         min-in-sync-replicas: 2
+#logging:
+#  level:
+#    root: DEBUG
+#    org.springframework: DEBUG
+#    org.hibernate: DEBUG
+camunda.bpm:
+  database:
+    type: postgres
+  table-prefix: camunda.
+  schema-update: true
 
-logging:
-  level:
-    root: DEBUG
-    org.springframework: DEBUG
-    org.hibernate: DEBUG
-    javax.transaction: DEBUG
+  generic-properties:
+    properties:
+      historyTimeToLive: P1D
+  admin-user:
+    id: admin
+    password: admin
+    firstName: Admin
+  filter:
+    create: All tasks
+  authorization:
+    enabled: true
+#    javax.transaction: DEBUG

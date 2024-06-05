@@ -14,7 +14,6 @@ services:
     environment:
       - SERVER_PORT= 8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/simaland
-      - SPRING_PROFILES_ACTIVE=helios
   consumer:
     image: consumer:0.0.1
     build:
