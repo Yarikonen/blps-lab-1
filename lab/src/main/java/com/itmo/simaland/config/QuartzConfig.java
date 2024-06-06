@@ -53,8 +53,8 @@ public class QuartzConfig {
                 .forJob(jobDetail)
                 .withIdentity("DailyReportTrigger", "ReportGroup")
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(30)
-//                        .withIntervalInHours(24)
+//                        .withIntervalInSeconds(30)
+                        .withIntervalInHours(24)
                         .repeatForever())
                 .startAt(java.util.Date.from(java.time.ZonedDateTime.now().withHour(8).withMinute(0).withSecond(0).toInstant())) // Start at 8 AM
                 .build();

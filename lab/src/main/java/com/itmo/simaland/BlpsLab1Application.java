@@ -1,10 +1,13 @@
 package com.itmo.simaland;
 
 import com.itmo.simaland.config.QuartzConfig;
+import com.itmo.simaland.delegate.ItemCreationDelegate;
 import com.itmo.simaland.model.entity.User;
 import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.service.UserService;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -21,6 +24,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.camunda.bpm.engine.ProcessEngine;
+//import org.camunda.bpm.engine.ProcessEngineConfiguration;
+//import com.itmo.simaland.delegate.ItemCreationDelegate;
 
 @SpringBootApplication
 @EnableScheduling
@@ -60,4 +66,13 @@ public class BlpsLab1Application {
             }
         };
     }
+
+//    @Bean
+//    public ProcessEngine processEngine() {
+//        return ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
+////                .addClasspathResource("bpmn/item-creation.bpmn")
+////                .addClasspathResource("bpmn/item-creation-form.form")
+////                .addDelegateInterceptor(new ItemCreationDelegate())
+//                .buildProcessEngine();
+//    }
 }

@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "text": "# Фильтрация товаров",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1398qtr",
+        "columns": null
+      },
+      "id": "Field_1558msc"
+    },
+    {
+      "label": "Цена от",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1xfriiz",
+        "columns": null
+      },
+      "id": "Field_1ew8djy",
+      "key": "minPrice"
+    },
+    {
+      "label": "Цена до",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1xfriiz",
+        "columns": null
+      },
+      "id": "Field_1v362d9",
+      "key": "maxPrice"
+    },
+    {
+      "action": "submit",
+      "label": "Фильтровать",
+      "type": "button",
+      "layout": {
+        "row": "Row_17z6mao",
+        "columns": null
+      },
+      "id": "Field_0my9vj4"
+    }
+  ],
+  "type": "default",
+  "id": "filter-items",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

@@ -1,0 +1,88 @@
+{
+  "components": [
+    {
+      "label": "Цена от",
+      "type": "number",
+      "layout": {
+        "row": "Row_19ysei8",
+        "columns": null
+      },
+      "id": "Field_03ymibc",
+      "key": "minPrice"
+    },
+    {
+      "label": "Цена до",
+      "type": "number",
+      "layout": {
+        "row": "Row_19ysei8",
+        "columns": null
+      },
+      "id": "Field_10ge5g7",
+      "key": "maxPrice"
+    },
+    {
+      "label": "Товары",
+      "type": "table",
+      "layout": {
+        "row": "Row_0xx17ku",
+        "columns": null
+      },
+      "dataSource": "=items",
+      "id": "Field_1bu12w2",
+      "columns": [
+        {
+          "label": "ID",
+          "key": "id"
+        },
+        {
+          "label": "Name",
+          "key": "name"
+        },
+        {
+          "label": "Price",
+          "key": "price"
+        }
+      ]
+    },
+    {
+      "label": "Выберите товары",
+      "type": "select",
+      "layout": {
+        "row": "Row_1o4aird",
+        "columns": null
+      },
+      "id": "Field_0uww0tg",
+      "key": "select",
+      "valuesKey": "${selectDelegate}"
+    },
+    {
+      "label": "Количество",
+      "type": "number",
+      "layout": {
+        "row": "Row_1o4aird",
+        "columns": null
+      },
+      "id": "Field_02e50m2",
+      "key": "count"
+    },
+    {
+      "action": "submit",
+      "label": "Добавить в корзину",
+      "type": "button",
+      "layout": {
+        "row": "Row_1bxtucl",
+        "columns": null
+      },
+      "id": "Field_00f1ycn"
+    }
+  ],
+  "type": "default",
+  "id": "add-items-to-cart",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

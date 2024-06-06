@@ -34,6 +34,16 @@ spring:
 #    org.springframework: DEBUG
 #    org.hibernate: DEBUG
 camunda.bpm:
+  enabled: true
+  auto-deployment-enabled: true
+  job-execution:
+    enabled: true
+  deployment-resource-pattern:
+    - classpath*:**/*.bpmn
+    - classpath*:**/*.bpmn20.xml
+    - classpath*:**/*.dmn
+    - classpath*:**/*.dmn11.xml
+    - classpath*:**/*.form
   database:
     type: postgres
   table-prefix: camunda.

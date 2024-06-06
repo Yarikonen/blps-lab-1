@@ -1,0 +1,74 @@
+{
+  "components": [
+    {
+      "label": "Название товара",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ljgxx8",
+        "columns": null
+      },
+      "id": "Field_1r2sfcd",
+      "key": "itemName",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Количество товара",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ljgxx8",
+        "columns": null
+      },
+      "id": "Field_1yhdkcw",
+      "key": "itemCount",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Цена",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0hdm94d",
+        "columns": null
+      },
+      "id": "Field_0wohmtp",
+      "key": "itemPrice",
+      "validate": {
+        "required": true
+      },
+      "properties": {}
+    },
+    {
+      "action": "submit",
+      "label": "Добавить",
+      "type": "button",
+      "layout": {
+        "row": "Row_17sd7ti",
+        "columns": null
+      },
+      "id": "Field_0b4rudc"
+    },
+    {
+      "label": "Id созданного товара",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1vvbtcw",
+        "columns": null
+      },
+      "id": "Field_09i1qrb",
+      "key": "itemId",
+      "readonly": true
+    }
+  ],
+  "type": "default",
+  "id": "add-item-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

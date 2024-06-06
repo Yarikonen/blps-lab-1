@@ -39,3 +39,5 @@ build/
 /lab/src/main/resources/db/changelog/liquibase.flowfile.yaml
 /lab/src/main/resources/db/changelog/liquibase.flowvariables.yaml
 /lab/src/main/resources/db/changelog/liquibase.properties
+
+.DS_Store
