@@ -4,18 +4,14 @@ package com.itmo.simaland.model.entity;
 import com.itmo.simaland.model.enums.AddressType;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "_order")
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Setter
 @Getter
 public class Order {
@@ -46,4 +42,9 @@ public class Order {
     @Column(name = "paid")
     private Boolean paid;
 
+    public Double getTotal() {
+        return orderItems.stream()
+                .mapToDouble(item -> item.getItem().getPrice() * item.getQuantity())
+                .sum();
+    }
 }

@@ -9,7 +9,8 @@
       },
       "id": "Field_03ymibc",
       "key": "minPrice",
-      "readonly": true
+      "readonly": true,
+      "disabled": true
     },
     {
       "label": "Цена до",
@@ -20,7 +21,8 @@
       },
       "id": "Field_10ge5g7",
       "key": "maxPrice",
-      "readonly": true
+      "readonly": true,
+      "disabled": true
     },
     {
       "label": "Товары",
@@ -65,7 +67,7 @@
         "columns": null
       },
       "id": "Field_02e50m2",
-      "key": "count"
+      "key": "itemCount"
     },
     {
       "action": "submit",

@@ -24,12 +24,12 @@ public class FetchCitiesDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        String selectedCountryName = (String) execution.getVariable("select_country");
+        String selectedCountryName = (String) execution.getVariable("selectedCountry");
         Map<String, String> countryMap = (Map<String, String>) execution.getVariable("countryMap");
         String selectedCountryCode = countryMap.get(selectedCountryName);
 
         RestTemplate restTemplate = new RestTemplate();
-        String citiesApiUrl = "http://api.geonames.org/searchJSON?country=" + selectedCountryCode + "&maxRows=10000&username=nastyabeggin";
+        String citiesApiUrl = "http://api.geonames.org/searchJSON?country=" + selectedCountryCode + "&maxRows=1000&username=nastyabeggin";
 
         log.info("citiesApiUrl");
         log.info(citiesApiUrl);
@@ -37,7 +37,7 @@ public class FetchCitiesDelegate implements JavaDelegate {
         String citiesJson = response.getBody();
 
         List<String> cityNames = parseCities(citiesJson);
-        execution.setVariable("cityList", cityNames);
+        execution.setVariable("cityList", Spin.JSON(cityNames));
     }
 
     private List<String> parseCities(String citiesJson) throws Exception {

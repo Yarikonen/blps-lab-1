@@ -37,8 +37,38 @@
       "valuesKey": "cityList",
       "searchable": true,
       "validate": {
-        "required": true
+        "required": false
       }
+    },
+    {
+      "label": "Улица",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1lhqbvc",
+        "columns": null
+      },
+      "id": "Field_160uwnl",
+      "key": "street"
+    },
+    {
+      "label": "Дом",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1lhqbvc",
+        "columns": null
+      },
+      "id": "Field_1qqhtvi",
+      "key": "house"
+    },
+    {
+      "label": "Квартира",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1lhqbvc",
+        "columns": null
+      },
+      "id": "Field_0uoocot",
+      "key": "textfield_c04mw"
     },
     {
       "action": "submit",

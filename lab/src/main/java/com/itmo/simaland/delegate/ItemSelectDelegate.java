@@ -37,15 +37,14 @@ public class ItemSelectDelegate implements JavaDelegate {
         itemFilter.setMaxPrice(maxPrice);
 
         List<Item> items = itemService.getAllItems(itemFilter);
+
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(items);
         JsonValue jsonValue = SpinValues.jsonValue(json).create();
         execution.setVariable("items", jsonValue);
 
-        ArrayList<String> productTypes = new ArrayList<>();
-        items.forEach(item -> {
-            productTypes.add(item.getName());
-        });
-        execution.setVariable("select-options", Spin.JSON(productTypes));
+        List<String> itemSelections = new ArrayList<>();
+        items.forEach(item -> itemSelections.add(item.getId() + ": " + item.getName()));
+        execution.setVariable("select-options", Spin.JSON(itemSelections));
     }
 }

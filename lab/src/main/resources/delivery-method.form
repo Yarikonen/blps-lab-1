@@ -1,14 +1,74 @@
 {
   "components": [
     {
-      "text": "{{#if usingTemplating}}\n\nВаш заказ\n\nВыбранныe товары:\n{{#loop items}}\n* {{this}}\n{{/loop}}\n\n{{/if}}",
+      "text": "# Ваш заказ",
       "label": "Text view",
       "type": "text",
       "layout": {
-        "row": "Row_1x5cqb3",
+        "row": "Row_1lmi1dp",
         "columns": null
       },
-      "id": "Field_13gguid"
+      "id": "Field_0oa97xk"
+    },
+    {
+      "label": "Table",
+      "type": "table",
+      "layout": {
+        "row": "Row_10a6e66",
+        "columns": null
+      },
+      "columns": [
+        {
+          "label": "ID",
+          "key": "id"
+        },
+        {
+          "label": "Name",
+          "key": "name"
+        },
+        {
+          "label": "Price",
+          "key": "inputVariable"
+        },
+        {
+          "label": "Quantity",
+          "key": "inputVariable"
+        }
+      ],
+      "id": "Field_089v5fy",
+      "dataSource": "=orderItems"
+    },
+    {
+      "label": "Сумма заказа",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_03rpnqq",
+        "columns": null
+      },
+      "id": "Field_0p5eara",
+      "key": "textfield_4fs955",
+      "disabled": true
+    },
+    {
+      "label": "Id",
+      "type": "number",
+      "layout": {
+        "row": "Row_03rpnqq",
+        "columns": null
+      },
+      "id": "Field_1s102jc",
+      "key": "orderId",
+      "disabled": true
+    },
+    {
+      "text": "### Выберите способ доставки",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_10i6ztt",
+        "columns": null
+      },
+      "id": "Field_0nakxcl"
     },
     {
       "values": [
@@ -24,7 +84,7 @@
       "label": "Способ доставки",
       "type": "select",
       "layout": {
-        "row": "Row_10i6ztt",
+        "row": "Row_0bytigq",
         "columns": null
       },
       "id": "Field_09xbdna",

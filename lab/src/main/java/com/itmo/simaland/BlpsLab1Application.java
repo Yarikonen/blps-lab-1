@@ -3,9 +3,12 @@ package com.itmo.simaland;
 import com.itmo.simaland.config.QuartzConfig;
 import com.itmo.simaland.delegate.ItemCreationDelegate;
 import com.itmo.simaland.model.entity.User;
+import com.itmo.simaland.model.entity.Warehouse;
 import com.itmo.simaland.model.enums.RoleEnum;
 import com.itmo.simaland.model.enums.Status;
 import com.itmo.simaland.service.UserService;
+import com.itmo.simaland.service.WarehouseService;
+import jakarta.persistence.EntityNotFoundException;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
@@ -52,10 +55,11 @@ public class BlpsLab1Application {
     }
 
     @Bean
-    CommandLineRunner init(UserService userService) {
+    CommandLineRunner init(UserService userService, WarehouseService warehouseService) {
         return args -> {
             try {
                 userService.loadUserByUsername("admin");
+                warehouseService.getById(1L);
             } catch (UsernameNotFoundException e) {
                 User adminUser = new User();
                 adminUser.setUsername("admin");
@@ -63,16 +67,12 @@ public class BlpsLab1Application {
                 adminUser.setRoleEnum(RoleEnum.ADMIN);
                 adminUser.setStatus(Status.ACTIVE);
                 userService.createUser(adminUser);
+            } catch (EntityNotFoundException e) {
+                Warehouse warehouse = new Warehouse();
+                warehouse.setAddress("street");
+                warehouse.setId(1L);
+                warehouseService.save(warehouse);
             }
         };
     }
-
-//    @Bean
-//    public ProcessEngine processEngine() {
-//        return ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
-////                .addClasspathResource("bpmn/item-creation.bpmn")
-////                .addClasspathResource("bpmn/item-creation-form.form")
-////                .addDelegateInterceptor(new ItemCreationDelegate())
-//                .buildProcessEngine();
-//    }
 }

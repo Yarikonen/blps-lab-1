@@ -3,7 +3,9 @@ package com.itmo.simaland.service;
 import com.itmo.simaland.dto.item.ItemWithQuantityResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseItemResponse;
 import com.itmo.simaland.dto.warehouse.WarehouseRequest;
+import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.model.entity.Warehouse;
+import com.itmo.simaland.model.entity.WarehouseItem;
 import com.itmo.simaland.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,19 @@ public class WarehouseService {
 
     public Warehouse getById(Long id) {
         return findById(id).orElseThrow(() -> new EntityNotFoundException("Warehouse not found with id " + id));
+    }
+
+    public void addItemsToWarehouse(Long id, Item item, int quantity) {
+        Warehouse warehouse = getById(id);
+        WarehouseItem warehouseItem= new WarehouseItem();
+        warehouseItem.setItem(item);
+        warehouseItem.setWarehouse(warehouse);
+        warehouseItem.setQuantity(quantity);
+
+        List<WarehouseItem> items = warehouse.getWarehouseItems();
+        items.add(warehouseItem);
+        warehouse.setWarehouseItems(items);
+        warehouseRepository.save(warehouse);
     }
 
     public Warehouse updateWarehouse(Long id, WarehouseRequest request) {
@@ -74,5 +89,15 @@ public class WarehouseService {
         warehouseItemResponse.setItems(itemResponses);
 
         return warehouseItemResponse;
+    }
+
+    @Transactional
+    public int getItemQuantityById(Long itemId) {
+        List<Warehouse> warehouses = warehouseRepository.findAll();
+        return warehouses.stream()
+                .flatMap(warehouse -> warehouse.getWarehouseItems().stream())
+                .filter(warehouseItem -> warehouseItem.getItem().getId().equals(itemId))
+                .mapToInt(WarehouseItem::getQuantity)
+                .sum();
     }
 }

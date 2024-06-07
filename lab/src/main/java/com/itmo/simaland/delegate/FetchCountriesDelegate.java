@@ -37,8 +37,8 @@ public class FetchCountriesDelegate implements JavaDelegate {
         log.info(countryMap.toString());
         log.info("countryList");
         log.info(countryMap.keySet().toString());
-//        execution.setVariable("countryMap", countryMap);
-        execution.setVariable("countryList", new ArrayList<>(countryMap.keySet()));
+        execution.setVariable("countryMap", countryMap);
+        execution.setVariable("countryList", Spin.JSON(new ArrayList<>(countryMap.keySet())));
     }
 
     private Map<String, String> parseCountries(String countriesJson) throws Exception {

@@ -54,7 +54,7 @@ camunda.bpm:
     properties:
       historyTimeToLive: P1D
   admin-user:
-    id: admin
+    id: 1
     password: admin
     firstName: Admin
   filter:

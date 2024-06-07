@@ -30,8 +30,6 @@ public class KafkaHandlingService {
     private Admin admin;
     private List<NewTopic> topics;
 
-
-
     @EventListener(ContextRefreshedEvent.class)
     private void createTopics(){
         try {

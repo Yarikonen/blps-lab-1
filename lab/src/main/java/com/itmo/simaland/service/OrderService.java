@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +35,27 @@ public class OrderService {
 
     private final PickUpPointService pickUpPointService;
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public Order createOrderWithItem(Item item, int quantity, Long userId) {
+        Order order = new Order();
+        order.setCustomer(userService.getUserById(userId));
+        order.setOrderDate(LocalDate.now());
+        order.setPickUpAddress("no address");
+        order.setPaid(false);
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setQuantity(quantity);
+        orderItem.setOrder(order);
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        orderItems.add(orderItem);
+        order.setOrderItems(orderItems);
+
+        warehouseItemService.reserveItems(orderItems);
+
+        return orderRepository.save(order);
+    }
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Order createOrder(Order order) {
         logger.info("order items {}", order.getOrderItems());
@@ -54,6 +76,28 @@ public class OrderService {
         return orderRepository.findAll(pageRequest);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void addItemToOrder(Long orderId, Item item, int quantity) {
+        Order order = getOrderById(orderId);
+
+        boolean itemExists = order.getOrderItems().stream()
+                .anyMatch(orderItem -> orderItem.getItem().getId().equals(item.getId()));
+
+        if (itemExists) {
+            order.getOrderItems().stream()
+                    .filter(orderItem -> orderItem.getItem().getId().equals(item.getId()))
+                    .findFirst()
+                    .ifPresent(orderItem -> orderItem.setQuantity(orderItem.getQuantity() + quantity));
+        } else {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setItem(item);
+            orderItem.setQuantity(quantity);
+            order.getOrderItems().add(orderItem);
+        }
+
+        orderRepository.save(order);
+    }
     public void removeOrderById(Long id) {
        orderRepository.delete(getOrderById(id));
     }
