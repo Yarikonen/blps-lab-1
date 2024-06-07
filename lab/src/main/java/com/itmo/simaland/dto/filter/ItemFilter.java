@@ -1,11 +1,12 @@
 package com.itmo.simaland.dto.filter;
 
 import jakarta.validation.constraints.Min;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class ItemFilter {
     private String name;

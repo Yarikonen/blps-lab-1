@@ -1,0 +1,63 @@
+{
+  "components": [
+    {
+      "text": "## Введите ваш адрес",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0dwzwev",
+        "columns": null
+      },
+      "id": "Field_0fqjbzf"
+    },
+    {
+      "label": "Страна",
+      "type": "select",
+      "layout": {
+        "row": "Row_1ggwak1",
+        "columns": null
+      },
+      "id": "Field_0tgg7md",
+      "key": "select_country",
+      "valuesKey": "countryList",
+      "searchable": true,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Город",
+      "type": "select",
+      "layout": {
+        "row": "Row_1ggwak1",
+        "columns": null
+      },
+      "id": "Field_0zc1vey",
+      "key": "select_city",
+      "valuesKey": "cityList",
+      "searchable": true,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Оформить заказ",
+      "type": "button",
+      "layout": {
+        "row": "Row_1on7evp",
+        "columns": null
+      },
+      "id": "Field_0qp5tvq"
+    }
+  ],
+  "type": "default",
+  "id": "input-address-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

@@ -28,11 +28,12 @@ spring:
         partitions: 3
         replication-factor: 3
         min-in-sync-replicas: 2
-#logging:
-#  level:
+logging:
+  level:
+    com: INFO
 #    root: DEBUG
 #    org.springframework: DEBUG
-#    org.hibernate: DEBUG
+    org.hibernate: ERROR
 camunda.bpm:
   enabled: true
   auto-deployment-enabled: true

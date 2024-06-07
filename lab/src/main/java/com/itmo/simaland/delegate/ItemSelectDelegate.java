@@ -2,24 +2,26 @@ package com.itmo.simaland.delegate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.itmo.simaland.controller.OrderController;
 import com.itmo.simaland.dto.filter.ItemFilter;
 import com.itmo.simaland.model.entity.Item;
 import com.itmo.simaland.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.spin.Spin;
 import org.camunda.spin.plugin.variable.SpinValues;
 import org.camunda.spin.plugin.variable.value.JsonValue;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ItemSelectDelegate implements JavaDelegate {
 
     @Autowired
@@ -27,19 +29,23 @@ public class ItemSelectDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+        log.info("Started execution in ItemSelectDelegate");
         Integer minPrice = (Integer) execution.getVariable("minPrice");
         Integer maxPrice = (Integer) execution.getVariable("maxPrice");
-        PageRequest pageRequest = PageRequest.of(0, 10);
         ItemFilter itemFilter = new ItemFilter();
-        itemFilter.setMaxPrice(maxPrice);
         itemFilter.setMinPrice(minPrice);
+        itemFilter.setMaxPrice(maxPrice);
 
-        Page<Item> items = itemService.getAllItems(pageRequest, itemFilter);
-
+        List<Item> items = itemService.getAllItems(itemFilter);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(items);
-
         JsonValue jsonValue = SpinValues.jsonValue(json).create();
         execution.setVariable("items", jsonValue);
+
+        ArrayList<String> productTypes = new ArrayList<>();
+        items.forEach(item -> {
+            productTypes.add(item.getName());
+        });
+        execution.setVariable("select-options", Spin.JSON(productTypes));
     }
 }

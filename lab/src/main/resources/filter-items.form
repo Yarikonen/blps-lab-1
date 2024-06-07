@@ -12,23 +12,29 @@
     },
     {
       "label": "Цена от",
-      "type": "textfield",
+      "type": "number",
       "layout": {
         "row": "Row_1xfriiz",
         "columns": null
       },
-      "id": "Field_1ew8djy",
-      "key": "minPrice"
+      "id": "Field_1qwsw21",
+      "key": "minPrice",
+      "validate": {
+        "min": 0
+      }
     },
     {
       "label": "Цена до",
-      "type": "textfield",
+      "type": "number",
       "layout": {
         "row": "Row_1xfriiz",
         "columns": null
       },
-      "id": "Field_1v362d9",
-      "key": "maxPrice"
+      "id": "Field_16fh9m5",
+      "key": "maxPrice",
+      "validate": {
+        "min": 0
+      }
     },
     {
       "action": "submit",

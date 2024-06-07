@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "text": "{{#if usingTemplating}}\n\nВаш заказ\n\nВыбранныe товары:\n{{#loop items}}\n* {{this}}\n{{/loop}}\n\n{{/if}}",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1x5cqb3",
+        "columns": null
+      },
+      "id": "Field_13gguid"
+    },
+    {
+      "values": [
+        {
+          "label": "В пункт выдачи",
+          "value": "1"
+        },
+        {
+          "label": "По адресу",
+          "value": "2"
+        }
+      ],
+      "label": "Способ доставки",
+      "type": "select",
+      "layout": {
+        "row": "Row_10i6ztt",
+        "columns": null
+      },
+      "id": "Field_09xbdna",
+      "key": "select",
+      "defaultValue": "В пункт выдачи"
+    },
+    {
+      "action": "submit",
+      "label": "Подтвердить",
+      "type": "button",
+      "layout": {
+        "row": "Row_1j2vz9a",
+        "columns": null
+      },
+      "id": "Field_02fergr"
+    }
+  ],
+  "type": "default",
+  "id": "delivery-method-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
