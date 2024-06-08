@@ -10,7 +10,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class ItemFilter {
     private String name;
-
     @Min(0)
     private Integer minPrice;
 

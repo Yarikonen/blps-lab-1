@@ -72,6 +72,10 @@ public class OrderService {
         return findOrderById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
     }
 
+    public Boolean checkIfPaid(Long id){
+        return getOrderById(id).getPaid();
+    }
+
     public Page<Order> getOrders(PageRequest pageRequest){
         return orderRepository.findAll(pageRequest);
     }

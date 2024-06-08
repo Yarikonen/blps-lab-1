@@ -1,0 +1,104 @@
+{
+  "components": [
+    {
+      "text": "# Ваш заказ",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1lmi1dp",
+        "columns": null
+      },
+      "id": "Field_0oa97xk"
+    },
+    {
+      "label": "Table",
+      "type": "table",
+      "layout": {
+        "row": "Row_10a6e66",
+        "columns": null
+      },
+      "dataSource": "=orderItems",
+      "id": "Field_089v5fy",
+      "columns": [
+        {
+          "label": "ID",
+          "key": "id"
+        },
+        {
+          "label": "Name",
+          "key": "name"
+        },
+        {
+          "label": "Price",
+          "key": "inputVariable"
+        },
+        {
+          "label": "Quantity",
+          "key": "inputVariable"
+        }
+      ]
+    },
+    {
+      "label": "Сумма заказа",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_03rpnqq",
+        "columns": null
+      },
+      "id": "Field_0p5eara",
+      "key": "orderTotal",
+      "disabled": true
+    },
+    {
+      "label": "Id",
+      "type": "number",
+      "layout": {
+        "row": "Row_03rpnqq",
+        "columns": null
+      },
+      "id": "Field_1s102jc",
+      "key": "orderId",
+      "disabled": true
+    },
+    {
+      "text": "# Прибудет по адресу",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_12xgdj5",
+        "columns": null
+      },
+      "id": "Field_1bpmfsl"
+    },
+    {
+      "label": "Text field",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_12xgdj5",
+        "columns": null
+      },
+      "id": "Field_0exj4bw",
+      "key": "pickuper",
+      "disabled": false
+    },
+    {
+      "action": "submit",
+      "label": "Оплатить",
+      "type": "button",
+      "layout": {
+        "row": "Row_1j2vz9a",
+        "columns": null
+      },
+      "id": "Field_02fergr"
+    }
+  ],
+  "type": "default",
+  "id": "order_info_form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

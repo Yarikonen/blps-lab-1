@@ -24,7 +24,6 @@ import java.util.List;
 @Slf4j
 public class ItemSelectDelegate implements JavaDelegate {
 
-    @Autowired
     private final ItemService itemService;
 
     @Override

@@ -59,7 +59,6 @@ public class BlpsLab1Application {
         return args -> {
             try {
                 userService.loadUserByUsername("admin");
-                warehouseService.getById(1L);
             } catch (UsernameNotFoundException e) {
                 User adminUser = new User();
                 adminUser.setUsername("admin");
@@ -67,7 +66,10 @@ public class BlpsLab1Application {
                 adminUser.setRoleEnum(RoleEnum.ADMIN);
                 adminUser.setStatus(Status.ACTIVE);
                 userService.createUser(adminUser);
-            } catch (EntityNotFoundException e) {
+            }
+            try {
+                warehouseService.getById(1L);
+            } catch (Exception e) {
                 Warehouse warehouse = new Warehouse();
                 warehouse.setAddress("street");
                 warehouse.setId(1L);

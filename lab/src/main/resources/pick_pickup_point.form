@@ -1,0 +1,64 @@
+{
+  "components": [
+    {
+      "text": "# Выберите точку доставки",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0iebika",
+        "columns": null
+      },
+      "id": "Field_19m89fk"
+    },
+    {
+      "label": "Table",
+      "type": "table",
+      "layout": {
+        "row": "Row_0iebika",
+        "columns": null
+      },
+      "columns": [
+        {
+          "label": "id",
+          "key": "id"
+        },
+        {
+          "label": "address",
+          "key": "address"
+        }
+      ],
+      "id": "Field_0v0q6b0",
+      "dataSource": "=points"
+    },
+    {
+      "label": "Select",
+      "type": "select",
+      "layout": {
+        "row": "Row_182k2sy",
+        "columns": null
+      },
+      "id": "Field_151ahea",
+      "key": "pickuper",
+      "valuesKey": "select-options"
+    },
+    {
+      "action": "submit",
+      "label": "Далее",
+      "type": "button",
+      "layout": {
+        "row": "Row_0bxpanm",
+        "columns": null
+      },
+      "id": "Field_14vcr2t"
+    }
+  ],
+  "type": "default",
+  "id": "pick_pickup",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

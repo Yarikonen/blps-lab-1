@@ -38,15 +38,9 @@ public class PaymentService {
     private String topicName;
 
     public String processPayment(PaymentRequest paymentRequest) {
-
-        log.info("begin");
-        Order order = orderService.getOrderById(paymentRequest.getOrderId());
-        orderService.updateOrderPaidStatus(paymentRequest.getOrderId(),true);
+        orderService.getOrderById(paymentRequest.getOrderId());
         kafkaHandlingService.send(topicName,paymentRequest.getOrderId().toString(),paymentRequest.getOrderId().toString());
-        log.info("start");
         return "Payment process proceed";
-
-
     }
 
     @EventListener(ApplicationReadyEvent.class)

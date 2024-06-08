@@ -1,0 +1,78 @@
+{
+  "components": [
+    {
+      "label": "order id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_19msqcl",
+        "columns": null
+      },
+      "id": "Field_0kolx42",
+      "key": "orderId",
+      "description": "order id"
+    },
+    {
+      "label": "card number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0awk4s6",
+        "columns": null
+      },
+      "id": "Field_0k8wmcm",
+      "key": "cardNumber",
+      "description": "card number"
+    },
+    {
+      "label": "cvv",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0awk4s6",
+        "columns": null
+      },
+      "id": "Field_1m3ud39",
+      "key": "cvv",
+      "description": "cvv"
+    },
+    {
+      "label": "card holder name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1dpqi01",
+        "columns": null
+      },
+      "id": "Field_1lydzdm",
+      "key": "cardHolderName",
+      "description": "card holder name"
+    },
+    {
+      "label": "money to pay",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0fb1fef",
+        "columns": null
+      },
+      "id": "Field_1pxagzk",
+      "key": "amount",
+      "description": "money to pay"
+    },
+    {
+      "action": "submit",
+      "label": "ОПЛАТИТЬ",
+      "type": "button",
+      "layout": {
+        "row": "Row_0oeifpy",
+        "columns": null
+      },
+      "id": "Field_1tfe971"
+    }
+  ],
+  "type": "default",
+  "id": "order-pay-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

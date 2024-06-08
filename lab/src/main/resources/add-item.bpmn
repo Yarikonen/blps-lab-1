@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.23.0">
-  <bpmn:process id="add-item" name="add item" isExecutable="true" camunda:historyTimeToLive="30">
+  <bpmn:process id="add-item" name="add item" isExecutable="true" camunda:candidateStarterGroups="Admin" camunda:historyTimeToLive="30">
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="старт">
       <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
@@ -19,7 +19,9 @@
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1h023fy" sourceRef="Activity_03qrwr4" targetRef="EndEvent_0x6ir2l" />
     <bpmn:userTask id="Activity_03qrwr4" name="Получить id созданного товара" camunda:formRef="add-item-form" camunda:formRefBinding="latest">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="#{itemCreationDelegate}" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
       <bpmn:outgoing>Flow_1h023fy</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0ot1bus">

@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "text": "# Create new pick up point",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_03k0d5r",
+        "columns": null
+      },
+      "id": "Field_01m2p5w"
+    },
+    {
+      "label": "address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0dctjvz",
+        "columns": null
+      },
+      "id": "Field_1pu5bmb",
+      "key": "address"
+    },
+    {
+      "label": "warehouse id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0dctjvz",
+        "columns": null
+      },
+      "id": "Field_0j7x93e",
+      "key": "warehouseId"
+    },
+    {
+      "action": "submit",
+      "label": "Create",
+      "type": "button",
+      "layout": {
+        "row": "Row_02qa85q",
+        "columns": null
+      },
+      "id": "Field_1j2i07r"
+    }
+  ],
+  "type": "default",
+  "id": "pick_up_creation_form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

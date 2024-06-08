@@ -48,7 +48,7 @@
         "columns": null
       },
       "id": "Field_160uwnl",
-      "key": "street"
+      "key": "address"
     },
     {
       "label": "Дом",
