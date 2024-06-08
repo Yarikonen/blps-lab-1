@@ -30,11 +30,11 @@
         },
         {
           "label": "Price",
-          "key": "inputVariable"
+          "key": "totalPrice"
         },
         {
           "label": "Quantity",
-          "key": "inputVariable"
+          "key": "qantity"
         }
       ]
     },

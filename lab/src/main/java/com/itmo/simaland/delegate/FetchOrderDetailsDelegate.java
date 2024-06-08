@@ -44,7 +44,7 @@ public class FetchOrderDetailsDelegate implements JavaDelegate {
         List<OrderItemDto> itemDtos = items.stream()
                 .map(item -> new OrderItemDto(
                         item.getItem().getName(),
-                        item.getQuantity(),
+                        item.getQuantity()/2,
                         item.getTotalPrice()
                 ))
                 .collect(Collectors.toList());

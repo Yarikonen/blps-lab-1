@@ -52,7 +52,7 @@
         "columns": null
       },
       "id": "Field_1pxagzk",
-      "key": "amount",
+      "key": "orderTotal",
       "description": "money to pay"
     },
     {

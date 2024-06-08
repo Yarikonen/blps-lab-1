@@ -39,7 +39,7 @@
       },
       "id": "Field_151ahea",
       "key": "pickuper",
-      "valuesKey": "select-options"
+      "valuesKey": "select-options-points"
     },
     {
       "action": "submit",

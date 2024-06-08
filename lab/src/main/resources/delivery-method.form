@@ -17,6 +17,8 @@
         "row": "Row_10a6e66",
         "columns": null
       },
+      "dataSource": "=orderItems",
+      "id": "Field_089v5fy",
       "columns": [
         {
           "label": "ID",
@@ -28,15 +30,13 @@
         },
         {
           "label": "Price",
-          "key": "inputVariable"
+          "key": "totalPrice"
         },
         {
           "label": "Quantity",
-          "key": "inputVariable"
+          "key": "quantity"
         }
-      ],
-      "id": "Field_089v5fy",
-      "dataSource": "=orderItems"
+      ]
     },
     {
       "label": "Сумма заказа",
@@ -46,7 +46,7 @@
         "columns": null
       },
       "id": "Field_0p5eara",
-      "key": "textfield_4fs955",
+      "key": "orderTotal",
       "disabled": true
     },
     {

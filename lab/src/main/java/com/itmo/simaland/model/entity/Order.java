@@ -45,6 +45,6 @@ public class Order {
     public Double getTotal() {
         return orderItems.stream()
                 .mapToDouble(item -> item.getItem().getPrice() * item.getQuantity())
-                .sum();
+                .sum()/2;
     }
 }

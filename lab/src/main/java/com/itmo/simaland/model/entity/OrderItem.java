@@ -33,6 +33,6 @@ public class OrderItem {
 
     public BigDecimal getTotalPrice() {
         BigDecimal price = BigDecimal.valueOf(item.getPrice());
-        return price.multiply(BigDecimal.valueOf(quantity));
+        return price.multiply(BigDecimal.valueOf(quantity/2));
     }
 }
